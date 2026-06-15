@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -539,6 +539,78 @@ This guide governs the visual development of the app. Follow the design tokens a
     }
   };
   const figmaTokensJson = JSON.stringify(figmaTokens, null, 2);
+  const w3cDesignTokensJson = JSON.stringify({
+    $description: `W3C design tokens export for ${detail.theme.name}`,
+    color: figmaTokens.color,
+    spacing: figmaTokens.dimension.spacing,
+    radius: figmaTokens.dimension.radius,
+    typography: figmaTokens.font,
+    shadow: Object.fromEntries(
+      Object.entries(detail.shadow_tokens).map(([key, val]) => [
+        key,
+        { $value: val, $type: "shadow", $description: `Shadow token: ${key}` }
+      ])
+    ),
+    motion: {
+      duration: {
+        fast: { $value: detail.motion_tokens.duration_fast, $type: "duration" },
+        normal: { $value: detail.motion_tokens.duration_normal, $type: "duration" },
+        slow: { $value: detail.motion_tokens.duration_slow, $type: "duration" },
+      },
+      easing: {
+        standard: { $value: detail.motion_tokens.ease_standard, $type: "cubicBezier" },
+        emphasised: { $value: detail.motion_tokens.ease_emphasised, $type: "cubicBezier" },
+        bounce: { $value: detail.motion_tokens.ease_bounce, $type: "cubicBezier" },
+      }
+    }
+  }, null, 2);
+  const styleDictionaryJson = JSON.stringify({
+    color: Object.fromEntries(
+      Object.entries(colors).map(([key, val]) => [
+        key,
+        { value: val.hex, type: "color", comment: `Theme ${key} color` }
+      ])
+    ),
+    size: {
+      spacing: Object.fromEntries(
+        Object.entries(detail.spacing_tokens)
+          .filter(([key]) => key !== 'preset_name')
+          .map(([key, val]) => [key, { value: val, type: "dimension", comment: `Spacing token: ${key}` }])
+      ),
+      radius: Object.fromEntries(
+        Object.entries(detail.radius_tokens)
+          .map(([key, val]) => [key, { value: val, type: "dimension", comment: `Corner radius: ${key}` }])
+      ),
+      font: {
+        base: { value: `${detail.typography_tokens.base_font_size}px`, type: "dimension" },
+        ...Object.fromEntries(
+          Object.entries(detail.typography_tokens.heading_sizes).map(([key, val]) => [key, { value: val, type: "dimension" }])
+        )
+      }
+    },
+    font: {
+      family: {
+        heading: { value: detail.typography_tokens.heading_font, type: "fontFamily" },
+        body: { value: detail.typography_tokens.body_font, type: "fontFamily" },
+        mono: { value: detail.typography_tokens.mono_font, type: "fontFamily" },
+      }
+    },
+    shadow: Object.fromEntries(
+      Object.entries(detail.shadow_tokens).map(([key, val]) => [key, { value: val, type: "shadow" }])
+    ),
+    motion: {
+      duration: {
+        fast: { value: detail.motion_tokens.duration_fast, type: "duration" },
+        normal: { value: detail.motion_tokens.duration_normal, type: "duration" },
+        slow: { value: detail.motion_tokens.duration_slow, type: "duration" },
+      },
+      easing: {
+        standard: { value: detail.motion_tokens.ease_standard, type: "cubicBezier" },
+        emphasised: { value: detail.motion_tokens.ease_emphasised, type: "cubicBezier" },
+        bounce: { value: detail.motion_tokens.ease_bounce, type: "cubicBezier" },
+      }
+    }
+  }, null, 2);
 
   // 11. ECHARTS THEME JSON
   const echartsThemeJson = JSON.stringify({
@@ -1821,6 +1893,8 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'tailwind': return { text: tailwindConfig, filename: 'tailwind.config.ts' };
       case 'json': return { text: tokensJson, filename: 'style-tokens.json' };
       case 'figma-tokens': return { text: figmaTokensJson, filename: 'figma-tokens.json' };
+      case 'w3c-tokens': return { text: w3cDesignTokensJson, filename: 'w3c-design-tokens.json' };
+      case 'style-dictionary': return { text: styleDictionaryJson, filename: 'style-dictionary-tokens.json' };
       case 'echarts-theme': return { text: echartsThemeJson, filename: 'echarts-theme.json' };
       case 'components': return { text: componentsCss, filename: 'components.css' };
       case 'motion': return { text: motionCss, filename: 'motion.css' };
@@ -1945,6 +2019,8 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "config/tailwind.config.ts": tailwindConfig,
       "tokens/style-tokens.json": tokensJson,
       "tokens/figma-tokens.json": figmaTokensJson,
+      "tokens/w3c-design-tokens.json": w3cDesignTokensJson,
+      "tokens/style-dictionary-tokens.json": styleDictionaryJson,
       "README.md": `# ${detail.theme.name} - AI Handoff Pack
 
 This offline handoff pack was generated by App Style Studio.
@@ -1963,6 +2039,8 @@ This offline handoff pack was generated by App Style Studio.
 - \`styles/components.css\`
 - \`config/tailwind.config.ts\`
 - \`tokens/style-tokens.json\`
+- \`tokens/w3c-design-tokens.json\`
+- \`tokens/style-dictionary-tokens.json\`
 `,
     };
     const zipName = `${detail.theme.name.toLowerCase().replace(/\s+/g, '_')}_ai_handoff_pack.zip`;
@@ -2012,6 +2090,8 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "config/tailwind.config.ts": tailwindConfig,
       "tokens/style-tokens.json": tokensJson,
       "tokens/figma-tokens.json": figmaTokensJson,
+      "tokens/w3c-design-tokens.json": w3cDesignTokensJson,
+      "tokens/style-dictionary-tokens.json": styleDictionaryJson,
       "tokens/echarts-theme.json": echartsThemeJson,
       "tokens/icons.json": iconsJson,
       "previews/app-preview.html": appPreviewHtml,
@@ -2138,6 +2218,8 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/styles/motion.css": motionCss,
       "shared/config/tailwind.config.ts": tailwindConfig,
       "shared/tokens/style-tokens.json": tokensJson,
+      "shared/tokens/w3c-design-tokens.json": w3cDesignTokensJson,
+      "shared/tokens/style-dictionary-tokens.json": styleDictionaryJson,
       "shared/handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
@@ -2243,6 +2325,8 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             { id: 'tailwind', name: 'Tailwind Config (tailwind.config.ts)' },
             { id: 'json', name: 'Design Tokens (style-tokens.json)' },
             { id: 'figma-tokens', name: 'Figma W3C Tokens (figma-tokens.json)' },
+            { id: 'w3c-tokens', name: 'W3C Design Tokens (w3c-design-tokens.json)' },
+            { id: 'style-dictionary', name: 'Style Dictionary Tokens (style-dictionary-tokens.json)' },
             { id: 'echarts-theme', name: 'ECharts Theme (echarts-theme.json)' },
             { id: 'components', name: 'Component CSS (components.css)' },
             { id: 'motion', name: 'Motion CSS (motion.css)' },
