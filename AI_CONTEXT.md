@@ -243,6 +243,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Do Not Change Guardrails Export:** Export Centre includes `DO_NOT_CHANGE_GUARDRAILS.md`, protecting design tokens, CSS variables, accessibility states, offline Wails/SQLite architecture, baseline-template conventions, scale/present/report/table controls, and AI build verification expectations.
 * [x] **Boilerplate Naming Guide Export:** Export Centre includes `BOILERPLATE_NAMING_GUIDE.md`, giving AI tools stable React/Wails folder structure, naming rules, table/report/export conventions, and baseline-template rules for token-saving app generation.
 * [x] **App Error Boundary:** Added a top-level React error boundary so unexpected screen errors show a clear recovery panel instead of a blank desktop app.
+* [x] **Export Centre Tab Config Extraction:** Export tab IDs and sidebar menu groups now live in `exportCentreConfig.ts`, reducing the `ExportCentre.tsx` monolith without changing export behavior.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -325,6 +326,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 
 ### Phase 7 - Quality Bar and Verification
 * [x] Add top-level error boundary so unexpected React errors show a recovery UI.
+* [x] Begin monolith reduction by extracting Export Centre tab types and sidebar metadata.
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
 * [x] Frontend build was verified with `npm run build` after AI Builder Brief and Antigravity Workflow exports.
 * [x] Frontend build was verified with `npm run build` after dedicated AI Handoff Pack exports.
@@ -355,6 +357,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Do Not Change Guardrails export.
 * [x] Frontend build was verified with `npm run build` after Boilerplate Naming Guide export.
 * [x] Frontend build was verified with `npm run build` after App Error Boundary.
+* [x] Frontend build was verified with `npm run build` after Export Centre tab config extraction.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
