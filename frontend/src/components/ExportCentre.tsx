@@ -6,6 +6,7 @@ import { SaveExportFile, LogExport, SaveExportZip } from '../../wailsjs/go/main/
 import * as Icons from 'lucide-react';
 import { ExportTabId, aiHandoffTabs, standardExportTabs, wailsStackTabs } from './exportCentreConfig';
 import { ExportCentreSidebarSection } from './ExportCentreSidebar';
+import { ExportCentreToolbar } from './ExportCentreToolbar';
 
 interface ExportCentreProps {
   detail: ThemeDetail;
@@ -2613,56 +2614,22 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
 
         {/* Right Code Viewer */}
         <div className="lg:col-span-3 flex flex-col bg-[#141829] border border-[#202538] rounded-xl overflow-hidden shadow-2xl">
-          {/* Header toolbar */}
-          <div className="flex justify-between items-center px-4 py-3 bg-[#181d31] border-b border-[#202538]">
-            <span className="text-xs font-semibold text-gray-400 tracking-wider font-mono">{current?.filename}</span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleExportZip}
-                className="px-3 py-1.5 text-xs font-semibold rounded bg-indigo-600 hover:bg-indigo-500 text-white transition-all flex items-center gap-1.5 active:scale-95 border border-indigo-500 cursor-pointer"
-              >
-                <Icons.FolderArchive size={14} />
-                {archiveStatus ? archiveStatus : 'Export Stack ZIP'}
-              </button>
-              <button
-                onClick={handleExportAiHandoffZip}
-                className="px-3 py-1.5 text-xs font-semibold rounded bg-[#1e233c] hover:bg-[#252c4a] border border-[#2d3558] text-gray-200 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                <Icons.Bot size={14} />
-                {handoffStatus ? handoffStatus : 'AI Handoff ZIP'}
-              </button>
-              <button
-                onClick={handleExportFullHandoffZip}
-                className="px-3 py-1.5 text-xs font-semibold rounded bg-emerald-700 hover:bg-emerald-600 border border-emerald-600 text-white transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                <Icons.PackageCheck size={14} />
-                {fullHandoffStatus ? fullHandoffStatus : 'Full Handoff ZIP'}
-              </button>
-              <button
-                onClick={handleExportStarterTemplatesZip}
-                className="px-3 py-1.5 text-xs font-semibold rounded bg-amber-600 hover:bg-amber-500 border border-amber-500 text-white transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                <Icons.LayoutTemplate size={14} />
-                {starterTemplateStatus ? starterTemplateStatus : 'Starter ZIP'}
-              </button>
-              <button
-                onClick={handleCopy}
-                className="px-3 py-1.5 text-xs font-semibold rounded bg-[#1e233c] hover:bg-[#252c4a] border border-[#2d3558] text-gray-200 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-              >
-                {copied ? <Icons.Check size={14} className="text-green-400" /> : <Icons.Copy size={14} />}
-                {copied ? 'Copy Code' : 'Copy Code'}
-              </button>
-              {activeTab !== 'ai-prompt' && (
-                <button
-                  onClick={handleSaveFile}
-                  className="px-3 py-1.5 text-xs font-semibold rounded bg-[var(--primary)] hover:opacity-90 text-white transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <Icons.Save size={14} />
-                  {saveStatus ? saveStatus : 'Save File'}
-                </button>
-              )}
-            </div>
-          </div>
+          <ExportCentreToolbar
+            filename={current?.filename}
+            activeTab={activeTab}
+            copied={copied}
+            archiveStatus={archiveStatus}
+            handoffStatus={handoffStatus}
+            fullHandoffStatus={fullHandoffStatus}
+            starterTemplateStatus={starterTemplateStatus}
+            saveStatus={saveStatus}
+            onExportZip={handleExportZip}
+            onExportAiHandoffZip={handleExportAiHandoffZip}
+            onExportFullHandoffZip={handleExportFullHandoffZip}
+            onExportStarterTemplatesZip={handleExportStarterTemplatesZip}
+            onCopy={handleCopy}
+            onSaveFile={handleSaveFile}
+          />
 
           {/* Textarea code block */}
           <div className="flex-1 p-4 overflow-hidden relative">
