@@ -237,6 +237,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Broader Token Import Shapes:** In-app import now accepts W3C/Figma JSON, Tokens Studio-style `value/type`, Style Dictionary-ish JSON, CSS variables, and simple Tailwind config fragments.
 * [x] **Import Preview Before Save:** Token imports now open a review modal showing confidence, detected mappings, missing/defaulted groups, guessed values, and key theme values before creating the theme.
 * [x] **W3C and Style Dictionary Exports:** Export Centre includes `w3c-design-tokens.json` and `style-dictionary-tokens.json`, and packages them into AI handoff, full handoff, and starter template ZIPs.
+* [x] **Token Savings Mode:** Export Centre includes `TOKEN_SAVINGS_PROMPT.md`, a no-fluff paste-once prompt that tells AI tools to read source files once, avoid restating the design system, and report only changed files, commands, build results, and gaps.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -311,7 +312,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Add export to W3C design tokens and Style Dictionary-compatible JSON.
 
 ### Phase 6 - Token Savings and AI Build Loop
-* [ ] Add "Token Savings Mode" that produces short, high-signal AI prompts with no redundant prose.
+* [x] Add "Token Savings Mode" that produces short, high-signal AI prompts with no redundant prose.
 * [ ] Add "Iteration Notes" export: only changed tokens since last export, so users do not resend the entire design system.
 * [ ] Add "Ask AI to build this screen" prompt snippets from each preview tab.
 * [ ] Add "Do not change these rules" guardrails to prevent AI tools from drifting away from the chosen design system.
@@ -342,6 +343,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Broader Token Import Shapes.
 * [x] Frontend build was verified with `npm run build` after Import Preview Before Save.
 * [x] Frontend build was verified with `npm run build` after W3C and Style Dictionary exports.
+* [x] Frontend build was verified with `npm run build` after Token Savings Mode.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.

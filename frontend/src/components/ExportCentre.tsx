@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -961,6 +961,22 @@ Use these exported files as source of truth:
 
 Do not redesign. Implement the app using this system.`;
 
+  const tokenSavingsPrompt = `# Token Savings Mode - ${detail.theme.name}
+
+Paste this once into an AI coding tool with the exported files. Keep future prompts short.
+
+\`\`\`text
+Read these files once and use them as source of truth: theme.css, components.css, tailwind.config.ts, COPY_ONCE_PROMPT.md, DESIGN_RULES.md, ACCESSIBILITY_NOTES.md, BASELINE_FRAMEWORK_GUIDE.md.
+
+Build target: ${detail.theme.app_type}. Blueprint: ${blueprintTitle || 'not specified'}. Screen pack: ${blueprintScreenSet || 'dashboard/register/reports'}. Stack: ${blueprintTargetStack || 'not specified'}.
+
+Design tokens: primary ${colors['primary']?.hex}, bg ${colors['bg-dark']?.hex}/${colors['bg']?.hex}/${colors['bg-light']?.hex}, text ${colors['text']?.hex}/${colors['text-muted']?.hex}, border ${colors['border']?.hex}, font ${detail.typography_tokens.heading_font}/${detail.typography_tokens.body_font}, padding page ${detail.spacing_tokens.page_padding}, card ${detail.spacing_tokens.card_padding}, table ${detail.spacing_tokens.table_cell_padding}, radius ${detail.radius_tokens.sm}/${detail.radius_tokens.md}/${detail.radius_tokens.lg}/${detail.radius_tokens.xl}.
+
+Rules: do not invent new colors, fonts, spacing, radius, shadows, or motion. Use CSS variables and components.css classes. Include loading, empty, error, success, warning, disabled, hover, focus, selected, and destructive states. Build reusable components before screens. If Wails desktop, use C:\\Users\\Home\\Desktop\\Test Framework as baseline and preserve SQLite, migrations, AppShell, settings, audit, backup, health, table controls, scale/density controls, and report exports.
+
+When responding, avoid restating the design system. Give only changed files, commands run, build result, and remaining gaps.
+\`\`\``;
+
   const antigravityWorkflow = `# Antigravity Workflow - Build With ${detail.theme.name}
 
 ## Description
@@ -1903,6 +1919,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'preview': return { text: appPreviewHtml, filename: 'app-preview.html' };
       case 'ai-prompt': return { text: aiPrompt, filename: 'ai-prompt.txt' };
       case 'copy-once-prompt': return { text: copyOncePrompt, filename: 'COPY_ONCE_PROMPT.md' };
+      case 'token-savings-prompt': return { text: tokenSavingsPrompt, filename: 'TOKEN_SAVINGS_PROMPT.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -1961,6 +1978,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "database/theme_store.go": goDbCode,
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
+      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -1997,6 +2015,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
     const files = {
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
+      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2097,6 +2116,7 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "previews/app-preview.html": appPreviewHtml,
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
+      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2221,6 +2241,7 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/tokens/w3c-design-tokens.json": w3cDesignTokensJson,
       "shared/tokens/style-dictionary-tokens.json": styleDictionaryJson,
       "shared/handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
+      "shared/handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2351,6 +2372,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
           {([
             { id: 'ai-prompt', name: 'Copy AI Builder Prompt' },
             { id: 'copy-once-prompt', name: 'Copy Once Prompt' },
+            { id: 'token-savings-prompt', name: 'Token Savings Mode' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },
