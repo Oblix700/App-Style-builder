@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -29,6 +29,63 @@ export function ExportCentre({ detail, mode }: ExportCentreProps) {
   const textContrast = getContrastRatio(colors.text?.rgb || { r: 255, g: 255, b: 255 }, colors.bg?.rgb || { r: 0, g: 0, b: 0 });
   const mutedContrast = getContrastRatio(colors['text-muted']?.rgb || { r: 150, g: 150, b: 150 }, colors.bg?.rgb || { r: 0, g: 0, b: 0 });
   const primaryContrast = getContrastRatio(colors.primary?.rgb || { r: 120, g: 100, b: 220 }, colors.bg?.rgb || { r: 0, g: 0, b: 0 });
+  const iterationSnapshotKey = `app-style-studio:iteration-snapshot:${detail.theme.id || detail.theme.name}`;
+  const createIterationSnapshot = () => ({
+    theme: {
+      name: detail.theme.name,
+      app_type: detail.theme.app_type,
+      style_mood: detail.theme.style_mood,
+      density: detail.theme.density,
+      component_style: detail.theme.component_style,
+    },
+    colors: Object.fromEntries(Object.entries(colors).map(([key, value]) => [key, value.hex])),
+    typography: detail.typography_tokens,
+    spacing: detail.spacing_tokens,
+    radius: detail.radius_tokens,
+    shadows: detail.shadow_tokens,
+    motion: detail.motion_tokens,
+    icons: detail.icon_settings,
+  });
+  const flattenSnapshot = (value: any, prefix = ''): Record<string, string> => {
+    if (value === null || typeof value !== 'object') {
+      return { [prefix]: String(value) };
+    }
+
+    return Object.entries(value).reduce((acc, [key, child]) => ({
+      ...acc,
+      ...flattenSnapshot(child, prefix ? `${prefix}.${key}` : key),
+    }), {} as Record<string, string>);
+  };
+  const getIterationNotesMarkdown = () => {
+    const currentSnapshot = createIterationSnapshot();
+    const currentFlat = flattenSnapshot(currentSnapshot);
+    const previousRaw = typeof window !== 'undefined' ? window.localStorage.getItem(iterationSnapshotKey) : null;
+    const previousSnapshot = previousRaw ? JSON.parse(previousRaw) : null;
+    const previousFlat = previousSnapshot ? flattenSnapshot(previousSnapshot) : {};
+    const changed = Object.entries(currentFlat)
+      .filter(([key, value]) => previousFlat[key] !== value)
+      .map(([key, value]) => ({ key, before: previousFlat[key] || '(not in previous snapshot)', after: value }));
+
+    return `# Iteration Notes - ${detail.theme.name}
+
+Use this after the first full handoff. Send only these changed values to the AI tool instead of resending the whole design system.
+
+## Snapshot
+- Theme: ${detail.theme.name}
+- Previous snapshot: ${previousSnapshot ? 'Found in this browser' : 'Not found. This export will become the first local comparison baseline after saving.'}
+- Changed token paths: ${changed.length}
+
+## Changed Tokens
+${changed.length ? changed.map((item) => `- \`${item.key}\`: \`${item.before}\` -> \`${item.after}\``).join('\n') : '- No token changes detected since the previous local iteration snapshot.'}
+
+## Paste To AI
+\`\`\`text
+Update the app style using only these changed App Style Studio tokens. Do not redesign or restate the full design system. Keep existing components and screens, apply the token deltas above, run the build, and report changed files plus verification.
+\`\`\`
+
+## Snapshot Rule
+Saving this file updates the local comparison snapshot for this theme.`;
+  };
 
   // 1. CSS VARIABLES
   const themeCss = `/* theme.css - Design Tokens for ${detail.theme.name} */
@@ -1920,6 +1977,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'ai-prompt': return { text: aiPrompt, filename: 'ai-prompt.txt' };
       case 'copy-once-prompt': return { text: copyOncePrompt, filename: 'COPY_ONCE_PROMPT.md' };
       case 'token-savings-prompt': return { text: tokenSavingsPrompt, filename: 'TOKEN_SAVINGS_PROMPT.md' };
+      case 'iteration-notes': return { text: getIterationNotesMarkdown(), filename: 'ITERATION_NOTES.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -1957,6 +2015,9 @@ This bundle contains styling files, config setups, and boilerplate files customi
     setSaveStatus("Saving...");
     SaveExportFile(current.filename, current.text)
       .then((path) => {
+        if (activeTab === 'iteration-notes' && typeof window !== 'undefined') {
+          window.localStorage.setItem(iterationSnapshotKey, JSON.stringify(createIterationSnapshot()));
+        }
         setSaveStatus(`Saved to ${path.split('\\').pop()}`);
         LogExport(detail.theme.id, activeTab);
         setTimeout(() => setSaveStatus(null), 3000);
@@ -1979,6 +2040,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
+      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2016,6 +2078,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
+      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2117,6 +2180,7 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
+      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2242,6 +2306,7 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/tokens/style-dictionary-tokens.json": styleDictionaryJson,
       "shared/handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "shared/handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
+      "shared/handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2373,6 +2438,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             { id: 'ai-prompt', name: 'Copy AI Builder Prompt' },
             { id: 'copy-once-prompt', name: 'Copy Once Prompt' },
             { id: 'token-savings-prompt', name: 'Token Savings Mode' },
+            { id: 'iteration-notes', name: 'Iteration Notes' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },
