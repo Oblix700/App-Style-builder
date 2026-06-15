@@ -247,6 +247,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Export Centre Sidebar Extraction:** Repeated sidebar tab rendering now lives in `ExportCentreSidebar.tsx`, keeping export behavior stable while shrinking the main export component.
 * [x] **Export Centre Toolbar Extraction:** Export, copy, and save toolbar rendering now lives in `ExportCentreToolbar.tsx`, preserving existing handlers/status labels while reducing main component UI noise.
 * [x] **Export Centre Code Viewer Extraction:** The right-side export preview frame and readonly textarea now live in `ExportCentreCodeViewer.tsx`, leaving `ExportCentre.tsx` more focused on export data and actions.
+* [x] **AI Loop Prompt Builder Extraction:** Screen build prompts, do-not-change guardrails, and boilerplate naming guide markdown now live in `exportCentreAiLoopPrompts.ts`, reducing generated-text bulk in `ExportCentre.tsx`.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -333,6 +334,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Continue monolith reduction by extracting Export Centre sidebar section rendering.
 * [x] Continue monolith reduction by extracting Export Centre toolbar rendering.
 * [x] Continue monolith reduction by extracting Export Centre code viewer shell.
+* [x] Continue monolith reduction by extracting AI loop prompt builders.
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
 * [x] Frontend build was verified with `npm run build` after AI Builder Brief and Antigravity Workflow exports.
 * [x] Frontend build was verified with `npm run build` after dedicated AI Handoff Pack exports.
@@ -367,6 +369,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Export Centre sidebar extraction.
 * [x] Frontend build was verified with `npm run build` after Export Centre toolbar extraction.
 * [x] Frontend build was verified with `npm run build` after Export Centre code viewer extraction.
+* [x] Frontend build was verified with `npm run build` after AI Loop Prompt Builder extraction.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
