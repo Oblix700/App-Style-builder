@@ -240,6 +240,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Copy Once Prompt Export:** Export Centre includes `COPY_ONCE_PROMPT.md`, a compact high-signal prompt for token-saving AI handoff, and includes it in Stack ZIP and AI Handoff ZIP exports.
 * [x] **Per-Tool Prompt Presets:** Export Centre includes prompt presets for Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Google AI Studio, and Antigravity.
 * [x] **Full Handoff ZIP:** Export Centre includes a complete `full_handoff_pack.zip` with styles, tokens, previews, handoff docs, per-tool prompts, React helpers, SQLite helper, and implementation README.
+* [x] **Starter Template ZIPs:** Export Centre includes a `starter_templates.zip` with Core Wails Business App, React + Tailwind App Shell, Admin Dashboard, Document/Register, Presentation/Briefing, and CRM/Booking/Client Portal starter packs.
 * [x] **Baseline Framework Guide Export:** Export Centre includes `BASELINE_FRAMEWORK_GUIDE.md` so AI tools can use `C:\Users\Home\Desktop\Test Framework` as the user's standard Wails business app architecture.
 * [x] **Template Strategy Export:** Export Centre includes `TEMPLATE_STRATEGY.md` so AI tools understand the sequence: build App Style Studio first, create one gold baseline template, then create focused variants.
 
@@ -285,13 +286,13 @@ We are now building toward: **the best non-coder app-style system for creating A
   * [x] `CODEX_PROMPT.md`
   * [x] compact "paste once" prompt
 * [x] Add `TEMPLATE_STRATEGY.md` export explaining the gold baseline first, variant templates second, and how to use `Test Framework` plus `SAAF CONTRACT MANAGER`.
-* [ ] Add starter template ZIPs for common targets:
-  * [ ] Core Wails Business App gold baseline based on `C:\Users\Home\Desktop\Test Framework`.
-  * [ ] React + Tailwind app shell.
-  * [ ] Admin dashboard starter.
-  * [ ] Document/register starter.
-  * [ ] Presentation/briefing starter.
-  * [ ] CRM/booking/client portal starter.
+* [x] Add starter template ZIPs for common targets:
+  * [x] Core Wails Business App gold baseline based on `C:\Users\Home\Desktop\Test Framework`.
+  * [x] React + Tailwind app shell.
+  * [x] Admin dashboard starter.
+  * [x] Document/register starter.
+  * [x] Presentation/briefing starter.
+  * [x] CRM/booking/client portal starter.
 * [x] Add per-tool prompt presets: Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, and Replit.
 * [x] Add "copy once" export mode: all critical context in a compact prompt designed to save user tokens.
 * [x] Add "full handoff" export mode: complete files and README for deeper implementation.
@@ -332,6 +333,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Copy Once Prompt export.
 * [x] Frontend build was verified with `npm run build` after Per-Tool Prompt Presets.
 * [x] Frontend build was verified with `npm run build` after Full Handoff ZIP export.
+* [x] Frontend build was verified with `npm run build` after Starter Template ZIPs.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.

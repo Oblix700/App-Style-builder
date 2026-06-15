@@ -17,6 +17,7 @@ export function ExportCentre({ detail, mode }: ExportCentreProps) {
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
   const [handoffStatus, setHandoffStatus] = useState<string | null>(null);
   const [fullHandoffStatus, setFullHandoffStatus] = useState<string | null>(null);
+  const [starterTemplateStatus, setStarterTemplateStatus] = useState<string | null>(null);
 
   const colors = generateSajidPalette(
     detail.colour_tokens.base_hue,
@@ -2051,6 +2052,181 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       });
   };
 
+  const handleExportStarterTemplatesZip = () => {
+    setStarterTemplateStatus("Packing...");
+    const starterTemplates = [
+      {
+        id: 'core-wails-business-app',
+        title: 'Core Wails Business App',
+        baseline: 'Use C:\\Users\\Home\\Desktop\\Test Framework as the gold baseline architecture.',
+        screens: ['Dashboard', 'Operations Register', 'Reports', 'Administration Console', 'Settings', 'Complete UI states'],
+        components: ['AppShell', 'Sidebar', 'Topbar', 'DataTable', 'ReportBuilder', 'SettingsRows', 'HealthBadges'],
+        prompt: 'Create the gold offline Wails + React + SQLite business app baseline. Preserve migrations, settings, preferences, audit logging, backup/restore, health checks, scale controls, density controls, table controls, report exports, and AppShell conventions.',
+      },
+      {
+        id: 'react-tailwind-app-shell',
+        title: 'React + Tailwind App Shell',
+        baseline: 'Use a clean React + TypeScript + Tailwind structure for web-first prototypes.',
+        screens: ['Landing or login', 'Dashboard shell', 'List view', 'Form view', 'Settings', 'Responsive states'],
+        components: ['AppShell', 'ResponsiveSidebar', 'Topbar', 'Button', 'Card', 'Input', 'Tabs', 'Toast'],
+        prompt: 'Create a web app shell using the exported theme.css, components.css, and Tailwind token mappings. Prioritize responsive layout, reusable primitives, and clean AI-readable file structure.',
+      },
+      {
+        id: 'admin-dashboard',
+        title: 'Admin Dashboard Template',
+        baseline: 'Use the Core Wails Business App baseline or React shell depending on target stack.',
+        screens: ['Overview dashboard', 'Metrics grid', 'Charts', 'Filtered table', 'Alerts', 'Settings'],
+        components: ['StatCards', 'ChartPanel', 'FilterBar', 'DataTable', 'AlertList', 'ExportActions'],
+        prompt: 'Create an operational dashboard template with metrics, charts, filters, tables, status badges, empty/loading/error states, and export-ready reports.',
+      },
+      {
+        id: 'document-register',
+        title: 'Document / Register Template',
+        baseline: 'Use Test Framework patterns and borrow mature document workflow ideas from SAAF Contract Manager only as reference.',
+        screens: ['Register table', 'Document detail', 'Import review', 'Audit history', 'Reports', 'Missing documents'],
+        components: ['RegisterTable', 'DocumentVault', 'ImportReviewPanel', 'AuditTimeline', 'ReportBuilder', 'FileUpload'],
+        prompt: 'Create a document/register starter for records, documents, imports, audit history, filters, column controls, and Excel/PDF/Word exports.',
+      },
+      {
+        id: 'presentation-briefing',
+        title: 'Presentation / Briefing Template',
+        baseline: 'Use the Wails desktop baseline and SAAF Contract Manager as a mature reference for present mode patterns.',
+        screens: ['Briefing overview', 'Slide picker', 'Fullscreen present mode', 'Agenda rail', 'Export briefing', 'Settings'],
+        components: ['BriefingSlide', 'SlideNavigator', 'PresentModeShell', 'AgendaRail', 'ExportPanel', 'DensityZoomControls'],
+        prompt: 'Create a presentation/briefing starter with fullscreen present mode, slide navigation, briefing details, density/zoom controls, and PowerPoint/export workflow guidance.',
+      },
+      {
+        id: 'crm-booking-client-portal',
+        title: 'CRM / Booking / Client Portal Template',
+        baseline: 'Use the React shell or Wails baseline depending on whether the app is client-facing or offline desktop.',
+        screens: ['Client dashboard', 'CRM detail', 'Booking form', 'Profile', 'Tasks/notes', 'Client documents'],
+        components: ['ClientCard', 'BookingFlow', 'CRMDetailTabs', 'TaskList', 'NotesPanel', 'DocumentList'],
+        prompt: 'Create a CRM/booking/client portal starter with customer records, appointment or booking flow, profile/detail screens, notes, tasks, documents, and clear client-facing states.',
+      },
+    ];
+
+    const files: Record<string, string> = {
+      "README.md": `# ${detail.theme.name} - Starter Template Pack
+
+This pack contains focused starter-template instructions generated from App Style Studio.
+
+## How To Use
+1. Pick one folder under \`templates/\`.
+2. Open its \`BUILD_PROMPT.md\` in your AI coding tool.
+3. Attach or copy the shared files under \`shared/\`.
+4. Build the chosen template first, then create variants from that baseline.
+
+## Shared Design Source
+- \`shared/styles/theme.css\`
+- \`shared/styles/components.css\`
+- \`shared/config/tailwind.config.ts\`
+- \`shared/handoff/COPY_ONCE_PROMPT.md\`
+- \`shared/handoff/DESIGN_RULES.md\`
+- \`shared/handoff/BASELINE_FRAMEWORK_GUIDE.md\`
+- \`shared/handoff/TEMPLATE_STRATEGY.md\`
+
+## Recommended Order
+1. Core Wails Business App
+2. Admin Dashboard
+3. Document / Register
+4. Presentation / Briefing
+5. CRM / Booking / Client Portal
+6. React + Tailwind App Shell for web-first variants
+`,
+      "shared/styles/theme.css": themeCss,
+      "shared/styles/components.css": componentsCss,
+      "shared/styles/motion.css": motionCss,
+      "shared/config/tailwind.config.ts": tailwindConfig,
+      "shared/tokens/style-tokens.json": tokensJson,
+      "shared/handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
+      "shared/handoff/DESIGN_RULES.md": designRules,
+      "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
+      "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
+      "shared/handoff/TEMPLATE_STRATEGY.md": templateStrategy,
+    };
+
+    starterTemplates.forEach((template) => {
+      files[`templates/${template.id}/README.md`] = `# ${template.title}
+
+## Purpose
+${template.prompt}
+
+## Baseline
+${template.baseline}
+
+## Screens
+${template.screens.map((screen) => `- ${screen}`).join('\n')}
+
+## Components
+${template.components.map((component) => `- ${component}`).join('\n')}
+
+## Design System
+Use the shared App Style Studio files. Do not invent a new palette, spacing scale, radius system, shadow style, or typography system.
+`;
+
+      files[`templates/${template.id}/BUILD_PROMPT.md`] = `# Build Prompt - ${template.title}
+
+Use App Style Studio as the design-system source of truth.
+
+## Task
+${template.prompt}
+
+## Required Shared Files
+- \`shared/styles/theme.css\`
+- \`shared/styles/components.css\`
+- \`shared/config/tailwind.config.ts\`
+- \`shared/handoff/COPY_ONCE_PROMPT.md\`
+- \`shared/handoff/DESIGN_RULES.md\`
+- \`shared/handoff/ACCESSIBILITY_NOTES.md\`
+
+## Build Rules
+- Use CSS variables from \`theme.css\`.
+- Use semantic classes from \`components.css\`.
+- Include loading, empty, error, success, warning, disabled, hover, focus, selected, and destructive states.
+- Build reusable components before screens.
+- Run the local build and report changed files.
+
+## First Screens
+${template.screens.map((screen) => `- ${screen}`).join('\n')}
+
+## First Components
+${template.components.map((component) => `- ${component}`).join('\n')}
+`;
+
+      files[`templates/${template.id}/FILE_STRUCTURE.md`] = `# Suggested File Structure - ${template.title}
+
+\`\`\`text
+src/
+  app/
+    AppShell.tsx
+    routes.tsx
+  components/
+${template.components.map((component) => `    ${component}.tsx`).join('\n')}
+  screens/
+${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.tsx`).join('\n')}
+  styles/
+    theme.css
+    components.css
+    motion.css
+  utils/
+    designTokens.ts
+\`\`\`
+`;
+    });
+
+    const zipName = `${detail.theme.name.toLowerCase().replace(/\s+/g, '_')}_starter_templates.zip`;
+    SaveExportZip(zipName, files)
+      .then(() => {
+        setStarterTemplateStatus("Exported!");
+        LogExport(detail.theme.id, "starter-templates-zip");
+        setTimeout(() => setStarterTemplateStatus(null), 3000);
+      })
+      .catch((err) => {
+        setStarterTemplateStatus(err === "save cancelled" ? null : `Error: ${err}`);
+        setTimeout(() => setStarterTemplateStatus(null), 3000);
+      });
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#0f111a] p-6 text-gray-200">
       <div className="mb-4">
@@ -2168,6 +2344,13 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
               >
                 <Icons.PackageCheck size={14} />
                 {fullHandoffStatus ? fullHandoffStatus : 'Full Handoff ZIP'}
+              </button>
+              <button
+                onClick={handleExportStarterTemplatesZip}
+                className="px-3 py-1.5 text-xs font-semibold rounded bg-amber-600 hover:bg-amber-500 border border-amber-500 text-white transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
+              >
+                <Icons.LayoutTemplate size={14} />
+                {starterTemplateStatus ? starterTemplateStatus : 'Starter ZIP'}
               </button>
               <button
                 onClick={handleCopy}
