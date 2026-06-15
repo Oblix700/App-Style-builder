@@ -5,6 +5,7 @@ import { generateSajidPalette, getContrastRatio } from '../utils/colors';
 import { SaveExportFile, LogExport, SaveExportZip } from '../../wailsjs/go/main/App';
 import * as Icons from 'lucide-react';
 import { ExportTabId, aiHandoffTabs, standardExportTabs, wailsStackTabs } from './exportCentreConfig';
+import { ExportCentreSidebarSection } from './ExportCentreSidebar';
 
 interface ExportCentreProps {
   detail: ThemeDetail;
@@ -2605,50 +2606,9 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 overflow-hidden">
         {/* Left selector */}
         <div className="lg:col-span-1 flex flex-col gap-1.5 overflow-y-auto pr-2">
-          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-2 mb-1">Standard Exports</div>
-          {standardExportTabs.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all ${
-                activeTab === item.id
-                  ? 'bg-[#1a1f35] text-[var(--primary)] border-l-4 border-[var(--primary)]'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-[#131625]'
-              }`}
-            >
-              {item.name}
-            </button>
-          ))}
-
-          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-2 mt-4 mb-1 border-t border-[#202538] pt-3">AI Handoff Pack</div>
-          {aiHandoffTabs.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all ${
-                activeTab === item.id
-                  ? 'bg-[#1a1f35] text-[var(--primary)] border-l-4 border-[var(--primary)]'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-[#131625]'
-              }`}
-            >
-              {item.name}
-            </button>
-          ))}
-
-          <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-2 mt-4 mb-1 border-t border-[#202538] pt-3">Wails Stack Harmony</div>
-          {wailsStackTabs.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all ${
-                activeTab === item.id
-                  ? 'bg-[#1a1f35] text-[var(--primary)] border-l-4 border-[var(--primary)]'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-[#131625]'
-              }`}
-            >
-              {item.name}
-            </button>
-          ))}
+          <ExportCentreSidebarSection title="Standard Exports" items={standardExportTabs} activeTab={activeTab} onSelect={setActiveTab} />
+          <ExportCentreSidebarSection title="AI Handoff Pack" items={aiHandoffTabs} activeTab={activeTab} onSelect={setActiveTab} withDivider />
+          <ExportCentreSidebarSection title="Wails Stack Harmony" items={wailsStackTabs} activeTab={activeTab} onSelect={setActiveTab} withDivider />
         </div>
 
         {/* Right Code Viewer */}
