@@ -369,6 +369,45 @@ function App() {
     const overrides: Record<string, string> = {};
     let foundPrimary = '';
 
+    const applyColorToken = (pathStr: string, value: string) => {
+      if (pathStr.includes('primary') || pathStr.includes('brand')) {
+        overrides['primary'] = value;
+        foundPrimary = value;
+      } else if (pathStr.includes('secondary') || pathStr.includes('accent')) {
+        overrides['secondary'] = value;
+      } else if (pathStr.includes('bg') || pathStr.includes('background') || pathStr.includes('surface')) {
+        overrides['bg'] = value;
+      } else if (pathStr.includes('text') || pathStr.includes('foreground')) {
+        overrides['text'] = value;
+      } else if (pathStr.includes('border')) {
+        overrides['border'] = value;
+      } else if (pathStr.includes('success')) {
+        overrides['success'] = value;
+      } else if (pathStr.includes('warning')) {
+        overrides['warning'] = value;
+      } else if (pathStr.includes('danger') || pathStr.includes('error')) {
+        overrides['danger'] = value;
+      } else if (pathStr.includes('info')) {
+        overrides['info'] = value;
+      }
+    };
+
+    const applyDimensionToken = (pathStr: string, rawValue: string | number) => {
+      const pxVal = typeof rawValue === 'number' ? `${rawValue}px` : rawValue;
+      if (pathStr.includes('radius') || pathStr.includes('rounded') || pathStr.includes('borderRadius')) {
+        if (pathStr.includes('sm')) newDetail.radius_tokens.sm = pxVal;
+        else if (pathStr.includes('md') || pathStr.includes('medium')) newDetail.radius_tokens.md = pxVal;
+        else if (pathStr.includes('lg') || pathStr.includes('large')) newDetail.radius_tokens.lg = pxVal;
+        else if (pathStr.includes('xl')) newDetail.radius_tokens.xl = pxVal;
+      } else if (pathStr.includes('spacing') || pathStr.includes('gap') || pathStr.includes('padding') || pathStr.includes('space')) {
+        if (pathStr.includes('page')) newDetail.spacing_tokens.page_padding = pxVal;
+        else if (pathStr.includes('card')) newDetail.spacing_tokens.card_padding = pxVal;
+        else if (pathStr.includes('cell') || pathStr.includes('table')) newDetail.spacing_tokens.table_cell_padding = pxVal;
+        else if (pathStr.includes('grid') || pathStr.includes('dashboard')) newDetail.spacing_tokens.dashboard_grid_gap = pxVal;
+        else if (pathStr.includes('form')) newDetail.spacing_tokens.form_gap = pxVal;
+      }
+    };
+
     const searchObj = (current: any, path: string[] = []) => {
       if (!current || typeof current !== 'object') return;
 
@@ -378,58 +417,18 @@ function App() {
         const pathStr = newPath.join('.');
 
         if (typeof val === 'string' && (val.startsWith('#') || val.startsWith('rgb') || val.startsWith('hsl'))) {
-          if (pathStr.includes('primary') || pathStr.includes('brand')) {
-            overrides['primary'] = val;
-            foundPrimary = val;
-          } else if (pathStr.includes('secondary') || pathStr.includes('accent')) {
-            overrides['secondary'] = val;
-          } else if (pathStr.includes('bg') || pathStr.includes('background') || pathStr.includes('surface')) {
-            overrides['bg'] = val;
-          } else if (pathStr.includes('text') || pathStr.includes('foreground')) {
-            overrides['text'] = val;
-          }
+          applyColorToken(pathStr, val);
         }
         else if ((typeof val === 'string' && val.endsWith('px')) || typeof val === 'number') {
-          const pxVal = typeof val === 'number' ? `${val}px` : val;
-          if (pathStr.includes('radius') || pathStr.includes('rounded')) {
-            if (pathStr.includes('sm')) newDetail.radius_tokens.sm = pxVal;
-            else if (pathStr.includes('md') || pathStr.includes('medium')) newDetail.radius_tokens.md = pxVal;
-            else if (pathStr.includes('lg') || pathStr.includes('large')) newDetail.radius_tokens.lg = pxVal;
-            else if (pathStr.includes('xl')) newDetail.radius_tokens.xl = pxVal;
-          } else if (pathStr.includes('spacing') || pathStr.includes('gap') || pathStr.includes('padding')) {
-            if (pathStr.includes('page')) newDetail.spacing_tokens.page_padding = pxVal;
-            else if (pathStr.includes('card')) newDetail.spacing_tokens.card_padding = pxVal;
-            else if (pathStr.includes('cell')) newDetail.spacing_tokens.table_cell_padding = pxVal;
-            else if (pathStr.includes('grid')) newDetail.spacing_tokens.dashboard_grid_gap = pxVal;
-            else if (pathStr.includes('form')) newDetail.spacing_tokens.form_gap = pxVal;
-          }
+          applyDimensionToken(pathStr, val);
         } 
-        else if (val && typeof val === 'object' && val['$value'] !== undefined) {
-          const w3cVal = val['$value'];
-          const w3cType = val['$type'];
-          if (w3cType === 'color' && typeof w3cVal === 'string') {
-            if (pathStr.includes('primary') || pathStr.includes('brand')) {
-              overrides['primary'] = w3cVal;
-              foundPrimary = w3cVal;
-            } else if (pathStr.includes('secondary') || pathStr.includes('accent')) {
-              overrides['secondary'] = w3cVal;
-            } else if (pathStr.includes('bg') || pathStr.includes('background') || pathStr.includes('surface')) {
-              overrides['bg'] = w3cVal;
-            } else if (pathStr.includes('text') || pathStr.includes('foreground')) {
-              overrides['text'] = w3cVal;
-            }
-          } else if (w3cType === 'dimension' || typeof w3cVal === 'number' || (typeof w3cVal === 'string' && w3cVal.endsWith('px'))) {
-            const pxVal = typeof w3cVal === 'number' ? `${w3cVal}px` : w3cVal;
-            if (pathStr.includes('radius') || pathStr.includes('rounded')) {
-              if (pathStr.includes('sm')) newDetail.radius_tokens.sm = pxVal;
-              else if (pathStr.includes('md') || pathStr.includes('medium')) newDetail.radius_tokens.md = pxVal;
-              else if (pathStr.includes('lg') || pathStr.includes('large')) newDetail.radius_tokens.lg = pxVal;
-              else if (pathStr.includes('xl')) newDetail.radius_tokens.xl = pxVal;
-            } else if (pathStr.includes('spacing') || pathStr.includes('gap') || pathStr.includes('padding')) {
-              if (pathStr.includes('page')) newDetail.spacing_tokens.page_padding = pxVal;
-              else if (pathStr.includes('card')) newDetail.spacing_tokens.card_padding = pxVal;
-              else if (pathStr.includes('cell')) newDetail.spacing_tokens.table_cell_padding = pxVal;
-            }
+        else if (val && typeof val === 'object' && (val['$value'] !== undefined || val.value !== undefined)) {
+          const tokenValue = val['$value'] ?? val.value;
+          const tokenType = String(val['$type'] ?? val.type ?? '').toLowerCase();
+          if ((tokenType === 'color' || tokenType === 'colorToken' || typeof tokenValue === 'string') && typeof tokenValue === 'string' && (tokenValue.startsWith('#') || tokenValue.startsWith('rgb') || tokenValue.startsWith('hsl'))) {
+            applyColorToken(pathStr, tokenValue);
+          } else if (tokenType === 'dimension' || tokenType === 'spacing' || tokenType === 'borderRadius' || typeof tokenValue === 'number' || (typeof tokenValue === 'string' && tokenValue.endsWith('px'))) {
+            applyDimensionToken(pathStr, tokenValue);
           }
         } else {
           searchObj(val, newPath);
@@ -457,6 +456,46 @@ function App() {
     return newDetail;
   };
 
+  const parseCssOrConfigTokens = (text: string, defaultName: string): ThemeDetail => {
+    const cssVariableMatches = [...text.matchAll(/--([a-zA-Z0-9-_]+)\s*:\s*([^;}\n]+)/g)];
+    const objectValueMatches = [...text.matchAll(/['"]?([a-zA-Z0-9-_]+)['"]?\s*:\s*['"]([^'"]+)['"]/g)];
+    const tokenObject: Record<string, any> = {};
+
+    cssVariableMatches.forEach((match) => {
+      tokenObject[match[1]] = match[2].trim();
+    });
+
+    objectValueMatches.forEach((match) => {
+      const value = match[2].trim();
+      if (value.startsWith('#') || value.startsWith('rgb') || value.startsWith('hsl') || value.endsWith('px')) {
+        tokenObject[match[1]] = value;
+      }
+    });
+
+    return parseDesignTokens(tokenObject, defaultName);
+  };
+
+  const parseImportedThemeFile = (text: string, fileName: string): ThemeDetail => {
+    const defaultName = fileName.replace(/\.[^/.]+$/, "");
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    if (extension === 'json') {
+      return parseDesignTokens(JSON.parse(text), defaultName);
+    }
+    return parseCssOrConfigTokens(text, defaultName);
+  };
+
+  const saveImportedTheme = (importedTheme: ThemeDetail) => {
+    Bindings.SaveTheme(importedTheme as any)
+      .then((newId) => {
+        refreshThemes();
+        handleSelectTheme(Number(newId));
+        showNotification(getImportSummary(importedTheme), 'success');
+      })
+      .catch((err) => {
+        showNotification(`Failed to save imported theme: ${err}`, 'error');
+      });
+  };
+
   const handleImportJsonFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -465,21 +504,9 @@ function App() {
     reader.onload = (event) => {
       const text = event.target?.result as string;
       try {
-        const parsed = JSON.parse(text);
-        const importedTheme = parseDesignTokens(parsed, file.name.replace(/\.[^/.]+$/, ""));
-        
-        Bindings.SaveTheme(importedTheme as any)
-          .then((newId) => {
-            refreshThemes();
-            handleSelectTheme(Number(newId));
-            showNotification(getImportSummary(importedTheme), 'success');
-          })
-          .catch((err) => {
-            showNotification(`Failed to save imported theme: ${err}`, 'error');
-          });
-
+        saveImportedTheme(parseImportedThemeFile(text, file.name));
       } catch (err) {
-        showNotification(`Failed to parse JSON: ${err}`, 'error');
+        showNotification(`Failed to parse import file: ${err}`, 'error');
       }
     };
     reader.readAsText(file);
@@ -500,30 +527,19 @@ function App() {
     setIsDraggingJson(false);
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
-    if (file.name.endsWith('.json') || file.type === 'application/json') {
+    if (/\.(json|css|ts|js|txt)$/i.test(file.name) || file.type === 'application/json' || file.type === 'text/css') {
       const reader = new FileReader();
       reader.onload = (event) => {
         const text = event.target?.result as string;
         try {
-          const parsed = JSON.parse(text);
-          const importedTheme = parseDesignTokens(parsed, file.name.replace(/\.[^/.]+$/, ""));
-          
-          Bindings.SaveTheme(importedTheme as any)
-            .then((newId) => {
-              refreshThemes();
-              handleSelectTheme(Number(newId));
-              showNotification(getImportSummary(importedTheme), 'success');
-            })
-            .catch((err) => {
-              showNotification(`Failed to save imported theme: ${err}`, 'error');
-            });
+          saveImportedTheme(parseImportedThemeFile(text, file.name));
         } catch (err) {
-          showNotification(`Failed to parse JSON: ${err}`, 'error');
+          showNotification(`Failed to parse import file: ${err}`, 'error');
         }
       };
       reader.readAsText(file);
     } else {
-      showNotification("Please drop a valid W3C or Figma Variables JSON file.", "error");
+      showNotification("Please drop a JSON, CSS, Tailwind TS/JS, or text token file.", "error");
     }
   };
 
@@ -1056,8 +1072,8 @@ function App() {
             {isDraggingJson && (
               <div className="absolute inset-0 bg-[#0c0f1b]/95 border-4 border-dashed border-indigo-600 m-4 rounded-xl flex flex-col items-center justify-center gap-4 z-[90] pointer-events-none transition-all duration-200">
                 <Icons.UploadCloud size={48} className="text-indigo-500 animate-bounce" />
-                <h3 className="text-lg font-bold text-white">Drop Figma / W3C JSON tokens here</h3>
-                <p className="text-xs text-gray-400">Instantly create a new styled theme workspace</p>
+                <h3 className="text-lg font-bold text-white">Drop token files here</h3>
+                <p className="text-xs text-gray-400">Supports Figma/W3C JSON, Tokens Studio, Style Dictionary-ish JSON, CSS variables, and Tailwind fragments.</p>
               </div>
             )}
             <div className="flex justify-between items-center pb-4 border-b border-[#202538]">
@@ -1068,10 +1084,10 @@ function App() {
               <div className="flex gap-2">
                 <label className="px-4 py-2 text-xs font-semibold bg-[#1a1e32] border border-[#242b47] hover:bg-[#202640] hover:text-white text-gray-300 rounded-lg shadow-[var(--shadow-button)] flex items-center gap-1.5 transition-all cursor-pointer">
                   <Icons.Upload size={14} />
-                  Import JSON
+                  Import Tokens
                   <input
                     type="file"
-                    accept=".json"
+                    accept=".json,.css,.ts,.js,.txt,application/json,text/css"
                     onChange={handleImportJsonFile}
                     className="hidden"
                   />
