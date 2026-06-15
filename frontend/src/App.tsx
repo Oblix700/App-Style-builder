@@ -305,20 +305,40 @@ function App() {
   };
 
   const getImportSummary = (detail: ThemeDetail) => {
-    const colorCount = Object.keys(detail.colour_tokens.overrides || {}).length;
     const template = PresetThemes[0];
-    const spacingCount = (['page_padding', 'card_padding', 'form_gap', 'table_cell_padding', 'dashboard_grid_gap'] as const)
-      .filter((key) => detail.spacing_tokens[key] !== template.spacing_tokens[key]).length;
-    const radiusCount = (['sm', 'md', 'lg', 'xl'] as const)
-      .filter((key) => detail.radius_tokens[key] !== template.radius_tokens[key]).length;
+    const colorKeys = Object.keys(detail.colour_tokens.overrides || {});
+    const spacingKeys = (['page_padding', 'card_padding', 'form_gap', 'table_cell_padding', 'dashboard_grid_gap'] as const)
+      .filter((key) => detail.spacing_tokens[key] !== template.spacing_tokens[key]);
+    const radiusKeys = (['sm', 'md', 'lg', 'xl'] as const)
+      .filter((key) => detail.radius_tokens[key] !== template.radius_tokens[key]);
+    const guessed: string[] = [];
+    const defaulted: string[] = [];
 
-    const parts = [
-      `${colorCount} color${colorCount === 1 ? '' : 's'}`,
-      `${spacingCount} spacing value${spacingCount === 1 ? '' : 's'}`,
-      `${radiusCount} radius value${radiusCount === 1 ? '' : 's'}`,
-    ];
+    if (detail.colour_tokens.base_hue !== template.colour_tokens.base_hue || detail.colour_tokens.chroma !== template.colour_tokens.chroma) {
+      guessed.push('base hue/chroma from primary');
+    }
 
-    return `Imported '${detail.theme.name}': detected ${parts.join(', ')}. Defaults filled the rest.`;
+    if (colorKeys.length === 0) defaulted.push('colors');
+    if (spacingKeys.length === 0) defaulted.push('spacing');
+    if (radiusKeys.length === 0) defaulted.push('radius');
+    defaulted.push('typography', 'shadows', 'icons', 'motion');
+
+    const detectedGroups = [
+      colorKeys.length > 0 ? `${colorKeys.length} colors` : null,
+      spacingKeys.length > 0 ? `${spacingKeys.length} spacing` : null,
+      radiusKeys.length > 0 ? `${radiusKeys.length} radius` : null,
+    ].filter(Boolean);
+    const missing = [
+      colorKeys.length === 0 ? 'color tokens' : null,
+      spacingKeys.length === 0 ? 'spacing tokens' : null,
+      radiusKeys.length === 0 ? 'radius tokens' : null,
+      'typography tokens',
+      'shadow tokens',
+    ].filter(Boolean);
+    const confidenceScore = (colorKeys.length > 0 ? 2 : 0) + (spacingKeys.length > 0 ? 1 : 0) + (radiusKeys.length > 0 ? 1 : 0);
+    const confidence = confidenceScore >= 3 ? 'High' : confidenceScore >= 2 ? 'Medium' : 'Low';
+
+    return `Import confidence ${confidence}: detected ${detectedGroups.join(', ') || 'no direct style tokens'}; missing ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '...' : ''}; guessed ${guessed.join(', ') || 'none'}; defaulted ${defaulted.slice(0, 4).join(', ')}${defaulted.length > 4 ? '...' : ''}.`;
   };
 
   const parseDesignTokens = (obj: any, defaultName: string): ThemeDetail => {
