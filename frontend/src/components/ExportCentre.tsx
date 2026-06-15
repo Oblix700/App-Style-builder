@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'screen-build-prompts' | 'guardrails' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'screen-build-prompts' | 'guardrails' | 'boilerplate-naming-guide' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -180,6 +180,94 @@ Use this file with AI coding tools to prevent design drift. These rules protect 
 - Run the project build.
 - Report changed files, verification commands, and any gaps.
 - If a requested change conflicts with these guardrails, stop and ask the user before changing protected rules.`;
+
+  const boilerplateNamingGuide = `# Boilerplate Naming and File Structure - ${detail.theme.name}
+
+Use this guide when generating reusable app templates from App Style Studio. The goal is a clean baseline that non-coders can understand, reuse, and hand to AI tools without wasting tokens on explanations.
+
+## Naming Rules
+- Use PascalCase for React components: \`Dashboard.tsx\`, \`DataTable.tsx\`, \`ReportBuilder.tsx\`.
+- Use camelCase for functions, hooks, variables, and local helpers: \`formatStatus\`, \`useThemePreference\`, \`exportReport\`.
+- Use kebab-case for CSS files and folders: \`theme.css\`, \`components.css\`, \`app-shell\` only when the framework expects it.
+- Use snake_case only where Go, SQLite, JSON exports, or database conventions already use it.
+- Name screens by user task, not technical cleverness: \`ClientRegister\`, \`BookingForm\`, \`Settings\`, \`Reports\`.
+- Keep file names stable after the first template build so later AI iterations can target exact files.
+
+## Recommended React Structure
+\`\`\`text
+src/
+  app/
+    AppShell.tsx
+    routes.ts
+  screens/
+    Dashboard.tsx
+    DataTableScreen.tsx
+    FormScreen.tsx
+    ReportsScreen.tsx
+    SettingsScreen.tsx
+    StatesScreen.tsx
+  components/
+    ui/
+      Button.tsx
+      Card.tsx
+      Input.tsx
+      Modal.tsx
+      Tabs.tsx
+      Toast.tsx
+    layout/
+      Sidebar.tsx
+      Topbar.tsx
+      CommandBar.tsx
+    data/
+      DataTable.tsx
+      FilterBar.tsx
+      StatusBadge.tsx
+  hooks/
+    useThemePreference.ts
+    useTableState.ts
+  styles/
+    theme.css
+    components.css
+    motion.css
+  utils/
+    formatters.ts
+    validators.ts
+    exportHelpers.ts
+\`\`\`
+
+## Recommended Wails / SQLite Structure
+\`\`\`text
+backend/
+  database/
+    migrations.go
+    theme_store.go
+    backup.go
+  services/
+    reports.go
+    settings.go
+    audit.go
+frontend/
+  src/
+    app/
+    screens/
+    components/
+    styles/
+Data/
+  app.db
+  backups/
+  exports/
+\`\`\`
+
+## Template Generation Rules
+- Start with one gold baseline template before creating variants.
+- Put domain-specific screens in \`screens/\`; put reusable pieces in \`components/\`.
+- Keep report/export logic in named helpers so AI tools can extend Excel, PDF, Word, and CSV behavior without rewriting screens.
+- Keep table state such as search, filters, sort, visible columns, column widths, density, and pagination in one clear hook or state module.
+- Keep scale controls, present mode, user preferences, and accessibility states as reusable app-level patterns.
+- Add a short \`README.md\` to every template folder with purpose, screens, commands, and known guardrails.
+
+## AI Prompt Rule
+When asking an AI tool to build from this boilerplate, paste the exact file path you want changed and say: "Follow \`BOILERPLATE_NAMING_GUIDE.md\`, preserve the existing folder structure, and add new files only when the responsibility is clearly separate."`;
 
   // 1. CSS VARIABLES
   const themeCss = `/* theme.css - Design Tokens for ${detail.theme.name} */
@@ -2074,6 +2162,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'iteration-notes': return { text: getIterationNotesMarkdown(), filename: 'ITERATION_NOTES.md' };
       case 'screen-build-prompts': return { text: screenBuildPrompts, filename: 'SCREEN_BUILD_PROMPTS.md' };
       case 'guardrails': return { text: guardrailsPrompt, filename: 'DO_NOT_CHANGE_GUARDRAILS.md' };
+      case 'boilerplate-naming-guide': return { text: boilerplateNamingGuide, filename: 'BOILERPLATE_NAMING_GUIDE.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -2139,6 +2228,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
+      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2179,6 +2269,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
+      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2214,7 +2305,7 @@ This offline handoff pack was generated by App Style Studio.
 4. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
 5. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
 6. Use the relevant per-tool prompt for ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Antigravity, or Codex.
-7. Keep \`handoff/DO_NOT_CHANGE_GUARDRAILS.md\`, \`handoff/DESIGN_RULES.md\`, and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
+7. Keep \`handoff/DO_NOT_CHANGE_GUARDRAILS.md\`, \`handoff/BOILERPLATE_NAMING_GUIDE.md\`, \`handoff/DESIGN_RULES.md\`, and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system, file structure, or accessibility requirements.
 
 ## Core Files
 - \`styles/theme.css\`
@@ -2283,6 +2374,7 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
+      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2388,6 +2480,7 @@ This pack contains focused starter-template instructions generated from App Styl
 - \`shared/config/tailwind.config.ts\`
 - \`shared/handoff/COPY_ONCE_PROMPT.md\`
 - \`shared/handoff/DO_NOT_CHANGE_GUARDRAILS.md\`
+- \`shared/handoff/BOILERPLATE_NAMING_GUIDE.md\`
 - \`shared/handoff/DESIGN_RULES.md\`
 - \`shared/handoff/BASELINE_FRAMEWORK_GUIDE.md\`
 - \`shared/handoff/TEMPLATE_STRATEGY.md\`
@@ -2412,6 +2505,7 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "shared/handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "shared/handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
+      "shared/handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2546,6 +2640,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             { id: 'iteration-notes', name: 'Iteration Notes' },
             { id: 'screen-build-prompts', name: 'Screen Build Prompts' },
             { id: 'guardrails', name: 'Do Not Change Guardrails' },
+            { id: 'boilerplate-naming-guide', name: 'Boilerplate Naming Guide' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },

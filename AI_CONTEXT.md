@@ -241,6 +241,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Iteration Notes Export:** Export Centre includes `ITERATION_NOTES.md`, comparing current tokens against the last local saved snapshot so users can send only changed values to AI tools.
 * [x] **Screen Build Prompt Snippets:** Export Centre includes `SCREEN_BUILD_PROMPTS.md` with short AI prompts for Dashboard, DataTable, Form, Modal, Report, Login, Settings, Alerts, States, and Patterns preview tabs.
 * [x] **Do Not Change Guardrails Export:** Export Centre includes `DO_NOT_CHANGE_GUARDRAILS.md`, protecting design tokens, CSS variables, accessibility states, offline Wails/SQLite architecture, baseline-template conventions, scale/present/report/table controls, and AI build verification expectations.
+* [x] **Boilerplate Naming Guide Export:** Export Centre includes `BOILERPLATE_NAMING_GUIDE.md`, giving AI tools stable React/Wails folder structure, naming rules, table/report/export conventions, and baseline-template rules for token-saving app generation.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -319,7 +320,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Add "Iteration Notes" export: only changed tokens since last export, so users do not resend the entire design system.
 * [x] Add "Ask AI to build this screen" prompt snippets from each preview tab.
 * [x] Add "Do not change these rules" guardrails to prevent AI tools from drifting away from the chosen design system.
-* [ ] Add reusable boilerplate naming conventions and file structure instructions for generated apps.
+* [x] Add reusable boilerplate naming conventions and file structure instructions for generated apps.
 
 ### Phase 7 - Quality Bar and Verification
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
@@ -350,6 +351,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Iteration Notes export.
 * [x] Frontend build was verified with `npm run build` after Screen Build Prompt Snippets.
 * [x] Frontend build was verified with `npm run build` after Do Not Change Guardrails export.
+* [x] Frontend build was verified with `npm run build` after Boilerplate Naming Guide export.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
