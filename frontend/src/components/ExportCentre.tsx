@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'screen-build-prompts' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -86,6 +86,67 @@ Update the app style using only these changed App Style Studio tokens. Do not re
 ## Snapshot Rule
 Saving this file updates the local comparison snapshot for this theme.`;
   };
+
+  const screenBuildPrompts = `# Screen Build Prompts - ${detail.theme.name}
+
+Use these snippets when you want an AI tool to build one screen at a time. Attach or reference \`theme.css\`, \`components.css\`, \`DESIGN_RULES.md\`, and \`TOKEN_SAVINGS_PROMPT.md\`.
+
+## Shared Rules
+- Build with App Style Studio tokens only.
+- Do not invent colors, fonts, spacing, radius, shadows, or motion.
+- Use reusable primitives before screen code.
+- Include loading, empty, error, success, disabled, hover, focus, selected, and destructive states where relevant.
+- Run the build and report changed files plus verification.
+
+## Dashboard.tsx
+\`\`\`text
+Build the Dashboard screen for ${detail.theme.app_type}. Use cards, stat summaries, chart panels, recent activity, system status, and one clear primary action. Use App Style Studio tokens and components.css classes. Keep density ${detail.theme.density} and style ${detail.theme.style_mood}.
+\`\`\`
+
+## DataTable.tsx
+\`\`\`text
+Build the DataTable/List screen. Include search, filters, sort, column visibility, density-aware rows, status badges, row actions, empty/loading/error states, and export affordances. Preserve table readability and tap targets.
+\`\`\`
+
+## FormView.tsx
+\`\`\`text
+Build the Create/Edit Form screen. Include grouped fields, labels, help text, validation states, disabled state, primary/secondary actions, and a safe cancel path. Use exported input, select, checkbox, and button styling.
+\`\`\`
+
+## ModalPortal.tsx
+\`\`\`text
+Build the Modal/Detail screen. Include header hierarchy, detail sections, confirmation footer, close/cancel actions, keyboard-visible focus, and destructive-state handling. Use modal shadow, radius, and spacing tokens.
+\`\`\`
+
+## AnalyticsReport.tsx
+\`\`\`text
+Build the Report/Analytics screen. Include summary cards, chart area, report filters, selected columns, preview table, and export actions for Excel/PDF/Word. Keep report templates and generated-date conventions in mind.
+\`\`\`
+
+## LoginScreen.tsx
+\`\`\`text
+Build the Login/Auth screen. Include brand panel, email/password fields, validation errors, remember option, secure submit state, and useful empty/error feedback. Keep it visually aligned with the app shell.
+\`\`\`
+
+## AppSettings.tsx
+\`\`\`text
+Build the Settings screen. Include settings rows, toggles, theme/default preferences, density controls, backup/export controls, health status, and admin-safe destructive actions.
+\`\`\`
+
+## SystemAlerts.tsx
+\`\`\`text
+Build the Alerts screen. Include success, warning, danger, info, unread/read, dismissed, retryable, and audit-style alert states. Each alert needs icon, title, short explanation, timestamp, and action.
+\`\`\`
+
+## States.tsx
+\`\`\`text
+Build the complete UI states page. Show loading, empty, error, success, warning, disabled, hover, focus, selected, and destructive states for the primary components. This is the QA checklist for generated templates.
+\`\`\`
+
+## Patterns.tsx
+\`\`\`text
+Build the Pattern Library screen. Include screen pattern cards for onboarding, pricing, profile, checkout/booking, CRM detail, project board, finance tracker, client portal, and empty state. Include component pattern coverage for nav/sidebar, command bar, cards, stats, charts, tables, filters, forms, modals, toasts, tabs, accordions, badges, file upload, date picker shell, and settings rows.
+\`\`\``;
 
   // 1. CSS VARIABLES
   const themeCss = `/* theme.css - Design Tokens for ${detail.theme.name} */
@@ -1978,6 +2039,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'copy-once-prompt': return { text: copyOncePrompt, filename: 'COPY_ONCE_PROMPT.md' };
       case 'token-savings-prompt': return { text: tokenSavingsPrompt, filename: 'TOKEN_SAVINGS_PROMPT.md' };
       case 'iteration-notes': return { text: getIterationNotesMarkdown(), filename: 'ITERATION_NOTES.md' };
+      case 'screen-build-prompts': return { text: screenBuildPrompts, filename: 'SCREEN_BUILD_PROMPTS.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -2041,6 +2103,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
+      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2079,6 +2142,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
+      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2181,6 +2245,7 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
+      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2307,6 +2372,7 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "shared/handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "shared/handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
+      "shared/handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2439,6 +2505,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             { id: 'copy-once-prompt', name: 'Copy Once Prompt' },
             { id: 'token-savings-prompt', name: 'Token Savings Mode' },
             { id: 'iteration-notes', name: 'Iteration Notes' },
+            { id: 'screen-build-prompts', name: 'Screen Build Prompts' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },
