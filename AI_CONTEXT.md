@@ -235,6 +235,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Import Summary Feedback:** Import success now reports detected color/spacing/radius counts instead of a generic success message.
 * [x] **Import Confidence Report:** Import success now reports confidence level, detected groups, missing token families, guessed values, and defaulted groups in plain English.
 * [x] **Broader Token Import Shapes:** In-app import now accepts W3C/Figma JSON, Tokens Studio-style `value/type`, Style Dictionary-ish JSON, CSS variables, and simple Tailwind config fragments.
+* [x] **Import Preview Before Save:** Token imports now open a review modal showing confidence, detected mappings, missing/defaulted groups, guessed values, and key theme values before creating the theme.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -305,7 +306,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Basic import summary feedback.
 * [x] Upgrade import summary into a confidence report with detected, missing, guessed, and defaulted tokens.
 * [x] Support more token shapes: Figma Variables, Tokens Studio, W3C Design Tokens, Style Dictionary-ish JSON, Tailwind config fragments, and simple CSS variables.
-* [ ] Add import preview before save, so users can accept/edit detected mappings.
+* [x] Add import preview before save, so users can accept/edit detected mappings.
 * [ ] Add export to W3C design tokens and Style Dictionary-compatible JSON.
 
 ### Phase 6 - Token Savings and AI Build Loop
@@ -338,6 +339,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Starter Template ZIPs.
 * [x] Frontend build was verified with `npm run build` after Import Confidence Report.
 * [x] Frontend build was verified with `npm run build` after Broader Token Import Shapes.
+* [x] Frontend build was verified with `npm run build` after Import Preview Before Save.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.

@@ -20,6 +20,7 @@ function App() {
   // Settings/Logs
   const [exportLogs, setExportLogs] = useState<ExportLog[]>([]);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [pendingImport, setPendingImport] = useState<{ detail: ThemeDetail; fileName: string } | null>(null);
 
   // Eyedropper / Image Color Picker states
   const [pickerImageSrc, setPickerImageSrc] = useState<string | null>(null);
@@ -304,7 +305,7 @@ function App() {
       });
   };
 
-  const getImportSummary = (detail: ThemeDetail) => {
+  const getImportAnalysis = (detail: ThemeDetail) => {
     const template = PresetThemes[0];
     const colorKeys = Object.keys(detail.colour_tokens.overrides || {});
     const spacingKeys = (['page_padding', 'card_padding', 'form_gap', 'table_cell_padding', 'dashboard_grid_gap'] as const)
@@ -338,7 +339,21 @@ function App() {
     const confidenceScore = (colorKeys.length > 0 ? 2 : 0) + (spacingKeys.length > 0 ? 1 : 0) + (radiusKeys.length > 0 ? 1 : 0);
     const confidence = confidenceScore >= 3 ? 'High' : confidenceScore >= 2 ? 'Medium' : 'Low';
 
-    return `Import confidence ${confidence}: detected ${detectedGroups.join(', ') || 'no direct style tokens'}; missing ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '...' : ''}; guessed ${guessed.join(', ') || 'none'}; defaulted ${defaulted.slice(0, 4).join(', ')}${defaulted.length > 4 ? '...' : ''}.`;
+    return {
+      colorKeys,
+      spacingKeys,
+      radiusKeys,
+      guessed,
+      defaulted,
+      detectedGroups,
+      missing,
+      confidence,
+    };
+  };
+
+  const getImportSummary = (detail: ThemeDetail) => {
+    const analysis = getImportAnalysis(detail);
+    return `Import confidence ${analysis.confidence}: detected ${analysis.detectedGroups.join(', ') || 'no direct style tokens'}; missing ${analysis.missing.slice(0, 3).join(', ')}${analysis.missing.length > 3 ? '...' : ''}; guessed ${analysis.guessed.join(', ') || 'none'}; defaulted ${analysis.defaulted.slice(0, 4).join(', ')}${analysis.defaulted.length > 4 ? '...' : ''}.`;
   };
 
   const parseDesignTokens = (obj: any, defaultName: string): ThemeDetail => {
@@ -489,11 +504,16 @@ function App() {
       .then((newId) => {
         refreshThemes();
         handleSelectTheme(Number(newId));
+        setPendingImport(null);
         showNotification(getImportSummary(importedTheme), 'success');
       })
       .catch((err) => {
         showNotification(`Failed to save imported theme: ${err}`, 'error');
       });
+  };
+
+  const previewImportedTheme = (text: string, fileName: string) => {
+    setPendingImport({ detail: parseImportedThemeFile(text, fileName), fileName });
   };
 
   const handleImportJsonFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -504,7 +524,7 @@ function App() {
     reader.onload = (event) => {
       const text = event.target?.result as string;
       try {
-        saveImportedTheme(parseImportedThemeFile(text, file.name));
+        previewImportedTheme(text, file.name);
       } catch (err) {
         showNotification(`Failed to parse import file: ${err}`, 'error');
       }
@@ -532,7 +552,7 @@ function App() {
       reader.onload = (event) => {
         const text = event.target?.result as string;
         try {
-          saveImportedTheme(parseImportedThemeFile(text, file.name));
+          previewImportedTheme(text, file.name);
         } catch (err) {
           showNotification(`Failed to parse import file: ${err}`, 'error');
         }
@@ -1060,6 +1080,96 @@ function App() {
             <span className="text-xs font-bold font-sans">{notification.message}</span>
           </div>
         )}
+
+        {pendingImport && (() => {
+          const analysis = getImportAnalysis(pendingImport.detail);
+          return (
+            <div className="fixed inset-0 z-[95] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6">
+              <div className="w-full max-w-3xl bg-[#111422] border border-[#2a3150] rounded-2xl shadow-2xl overflow-hidden">
+                <div className="p-5 border-b border-[#202538] flex items-start justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] mb-1">
+                      <Icons.FileSearch size={14} />
+                      Import preview
+                    </div>
+                    <h2 className="text-lg font-bold text-white">Review token mappings before save</h2>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Source: <span className="font-mono text-gray-300">{pendingImport.fileName}</span>
+                    </p>
+                  </div>
+                  <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase ${
+                    analysis.confidence === 'High'
+                      ? 'bg-green-500/15 text-green-300'
+                      : analysis.confidence === 'Medium'
+                        ? 'bg-amber-500/15 text-amber-300'
+                        : 'bg-red-500/15 text-red-300'
+                  }`}>
+                    {analysis.confidence} confidence
+                  </span>
+                </div>
+
+                <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-[#0c0f1b] border border-[#202538] rounded-xl p-4">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Detected</h3>
+                    <div className="space-y-2 text-xs text-gray-300">
+                      <p>Colors: <span className="text-[var(--primary)] font-bold">{analysis.colorKeys.length ? analysis.colorKeys.join(', ') : 'none'}</span></p>
+                      <p>Spacing: <span className="text-[var(--primary)] font-bold">{analysis.spacingKeys.length ? analysis.spacingKeys.join(', ') : 'none'}</span></p>
+                      <p>Radius: <span className="text-[var(--primary)] font-bold">{analysis.radiusKeys.length ? analysis.radiusKeys.join(', ') : 'none'}</span></p>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#0c0f1b] border border-[#202538] rounded-xl p-4">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Missing / Defaulted</h3>
+                    <div className="space-y-2 text-xs text-gray-300">
+                      <p>Missing: <span className="text-amber-300 font-bold">{analysis.missing.join(', ')}</span></p>
+                      <p>Defaulted: <span className="text-gray-400 font-bold">{analysis.defaulted.join(', ')}</span></p>
+                      <p>Guessed: <span className="text-blue-300 font-bold">{analysis.guessed.join(', ') || 'none'}</span></p>
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-2 bg-[#0c0f1b] border border-[#202538] rounded-xl p-4">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Preview Theme</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                      <div>
+                        <p className="text-gray-500 uppercase text-[10px] font-bold">Name</p>
+                        <p className="text-white font-bold truncate">{pendingImport.detail.theme.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 uppercase text-[10px] font-bold">Primary</p>
+                        <p className="text-white font-mono">{pendingImport.detail.colour_tokens.overrides.primary || 'generated'}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 uppercase text-[10px] font-bold">Card padding</p>
+                        <p className="text-white font-mono">{pendingImport.detail.spacing_tokens.card_padding}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 uppercase text-[10px] font-bold">Radius md</p>
+                        <p className="text-white font-mono">{pendingImport.detail.radius_tokens.md}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 border-t border-[#202538] flex flex-col sm:flex-row sm:justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPendingImport(null)}
+                    className="px-4 py-2 text-xs font-bold rounded-lg border border-[#2d3558] text-gray-300 hover:text-white hover:bg-[#1a1f35] transition-all"
+                  >
+                    Cancel import
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => saveImportedTheme(pendingImport.detail)}
+                    className="px-4 py-2 text-xs font-bold rounded-lg bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white shadow-[var(--shadow-button)] transition-all"
+                  >
+                    Import theme
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* SCREEN 1: DASHBOARD (THEME MANAGER) */}
         {activeScreen === 'dashboard' && (
