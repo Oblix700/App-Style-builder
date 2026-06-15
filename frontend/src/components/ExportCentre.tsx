@@ -7,6 +7,7 @@ import * as Icons from 'lucide-react';
 import { ExportTabId, aiHandoffTabs, standardExportTabs, wailsStackTabs } from './exportCentreConfig';
 import { ExportCentreSidebarSection } from './ExportCentreSidebar';
 import { ExportCentreToolbar } from './ExportCentreToolbar';
+import { ExportCentreCodeViewer } from './ExportCentreCodeViewer';
 
 interface ExportCentreProps {
   detail: ThemeDetail;
@@ -2612,8 +2613,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
           <ExportCentreSidebarSection title="Wails Stack Harmony" items={wailsStackTabs} activeTab={activeTab} onSelect={setActiveTab} withDivider />
         </div>
 
-        {/* Right Code Viewer */}
-        <div className="lg:col-span-3 flex flex-col bg-[#141829] border border-[#202538] rounded-xl overflow-hidden shadow-2xl">
+        <ExportCentreCodeViewer value={current.text}>
           <ExportCentreToolbar
             filename={current?.filename}
             activeTab={activeTab}
@@ -2630,16 +2630,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             onCopy={handleCopy}
             onSaveFile={handleSaveFile}
           />
-
-          {/* Textarea code block */}
-          <div className="flex-1 p-4 overflow-hidden relative">
-            <textarea
-              readOnly
-              value={current.text}
-              className="w-full h-full bg-transparent text-gray-300 font-mono text-xs focus:outline-none resize-none overflow-y-auto leading-relaxed select-all"
-            />
-          </div>
-        </div>
+        </ExportCentreCodeViewer>
       </div>
     </div>
   );
