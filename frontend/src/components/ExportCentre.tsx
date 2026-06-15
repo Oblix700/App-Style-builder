@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -709,6 +709,16 @@ Please inspect the styles, configure Tailwind and the Wails project parameters, 
 - Build target: ${blueprintTargetStack || 'Not specified'}
 `
     : '';
+  const normalizedBlueprintScreenSet = (blueprintScreenSet || detail.theme.app_type || '').toLowerCase();
+  const recommendedStarterTemplate = normalizedBlueprintScreenSet.includes('crm') || normalizedBlueprintScreenSet.includes('booking') || normalizedBlueprintScreenSet.includes('checkout')
+    ? 'CRM / Booking / Client Portal starter'
+    : normalizedBlueprintScreenSet.includes('present') || normalizedBlueprintScreenSet.includes('briefing') || normalizedBlueprintScreenSet.includes('exports')
+      ? 'Presentation / Briefing starter'
+      : normalizedBlueprintScreenSet.includes('import') || normalizedBlueprintScreenSet.includes('documents') || normalizedBlueprintScreenSet.includes('audit')
+        ? 'Document / Register starter'
+        : normalizedBlueprintScreenSet.includes('landing') || normalizedBlueprintScreenSet.includes('onboarding')
+          ? 'React + Tailwind app shell'
+          : 'Core Wails Business App gold baseline';
 
   const aiBuilderBrief = `# AI Builder Brief - ${detail.theme.name}
 
@@ -808,6 +818,74 @@ Build the app shell with these screens first:
 
 ## Token-Saving Prompt
 Build a ${detail.theme.app_type} using the attached App Style Studio design system. Use \`theme.css\`, \`components.css\`, and the exported Tailwind config as source of truth. Do not invent new colors, spacing, radii, shadows, or typography. Create reusable components and screens that match the brief above.`;
+
+  const copyOncePrompt = `# Copy Once Prompt - ${detail.theme.name}
+
+You are building a polished app from an App Style Studio export. Use this prompt as the compact source of truth and avoid asking for repeated visual polish instructions.
+
+## Build Target
+- App: ${detail.theme.app_type}
+- Style: ${detail.theme.style_mood}
+- Mode: ${mode}
+- Density: ${detail.theme.density}
+- Component style: ${detail.theme.component_style}
+- Blueprint: ${blueprintTitle || 'Not specified'}
+- Audience: ${blueprintAudience || 'Not specified'}
+- Screen pack: ${blueprintScreenSet || 'Dashboard + register + reports'}
+- Target stack: ${blueprintTargetStack || 'Not specified'}
+- Recommended starter: ${recommendedStarterTemplate}
+
+## Baseline Rule
+If building an offline Wails desktop app, use \`C:\\Users\\Home\\Desktop\\Test Framework\` as the baseline architecture. Preserve its SQLite, migrations, AppShell, settings, preferences, audit, backup, health checks, table controls, scale controls, density controls, and report/export patterns.
+
+## Required Files
+Use these exported files as source of truth:
+- \`theme.css\`
+- \`components.css\`
+- \`tailwind.config.ts\`
+- \`AI_BUILDER_BRIEF.md\`
+- \`DESIGN_RULES.md\`
+- \`ACCESSIBILITY_NOTES.md\`
+- \`BASELINE_FRAMEWORK_GUIDE.md\`
+- \`TEMPLATE_STRATEGY.md\`
+
+## Non-Negotiable Design Rules
+- Do not invent new colors, spacing, radius, shadows, typography, or motion.
+- Use CSS variables such as \`var(--primary)\`, \`var(--bg-light)\`, \`var(--text)\`, \`var(--border)\`, \`var(--radius-lg)\`, \`var(--card-padding)\`, and \`var(--shadow-card)\`.
+- Use \`components.css\` classes for buttons, cards, inputs, selects, tables, badges, nav items, modals, alerts, and loaders.
+- Include loading, empty, error, success, warning, disabled, hover, focus, selected, and destructive states.
+- Keep visible focus styles and readable contrast.
+- Build reusable primitives before screens: AppShell, Sidebar, Topbar, Button, Card, Input, Select, Table, Modal, Badge, Alert, Tabs, Toast, FileUpload, DatePicker shell, SettingsRow.
+
+## Token Summary
+- Primary: ${colors['primary']?.hex}
+- Primary hover: ${colors['primary-hover']?.hex}
+- Background dark: ${colors['bg-dark']?.hex}
+- Background: ${colors['bg']?.hex}
+- Surface: ${colors['bg-light']?.hex}
+- Text: ${colors['text']?.hex}
+- Muted text: ${colors['text-muted']?.hex}
+- Border: ${colors['border']?.hex}
+- Success: ${colors['success']?.hex}
+- Warning: ${colors['warning']?.hex}
+- Danger: ${colors['danger']?.hex}
+- Info: ${colors['info']?.hex}
+- Heading font: ${detail.typography_tokens.heading_font}
+- Body font: ${detail.typography_tokens.body_font}
+- Page padding: ${detail.spacing_tokens.page_padding}
+- Card padding: ${detail.spacing_tokens.card_padding}
+- Table padding: ${detail.spacing_tokens.table_cell_padding}
+- Radius: ${detail.radius_tokens.sm}, ${detail.radius_tokens.md}, ${detail.radius_tokens.lg}, ${detail.radius_tokens.xl}
+- Shadows: card \`${detail.shadow_tokens.card}\`, modal \`${detail.shadow_tokens.modal}\`, button \`${detail.shadow_tokens.button}\`
+
+## First Build Sequence
+1. Wire in \`theme.css\`, \`components.css\`, and Tailwind mappings.
+2. Create/reuse the component primitives listed above.
+3. Build the recommended screen pack first.
+4. Verify responsive desktop/tablet/mobile layout and all UI states.
+5. Run the project build and report changed files, checks, and remaining gaps.
+
+Do not redesign. Implement the app using this system.`;
 
   const antigravityWorkflow = `# Antigravity Workflow - Build With ${detail.theme.name}
 
@@ -1606,6 +1684,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'guide': return { text: aiStyleGuide, filename: 'ai-style-guide.md' };
       case 'preview': return { text: appPreviewHtml, filename: 'app-preview.html' };
       case 'ai-prompt': return { text: aiPrompt, filename: 'ai-prompt.txt' };
+      case 'copy-once-prompt': return { text: copyOncePrompt, filename: 'COPY_ONCE_PROMPT.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -1655,6 +1734,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "components/EChartsWrapper.tsx": reactEChartsCode,
       "database/theme_store.go": goDbCode,
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
+      "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -1682,6 +1762,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
     setHandoffStatus("Packing...");
     const files = {
       "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
+      "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -1702,11 +1783,12 @@ This offline handoff pack was generated by App Style Studio.
 
 ## Recommended Workflow
 1. Review \`handoff/AI_BUILDER_BRIEF.md\`.
-2. Review \`handoff/BASELINE_FRAMEWORK_GUIDE.md\` if you are building from the user's Test Framework baseline.
-3. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
-4. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
-5. Use \`handoff/ANTIGRAVITY_WORKFLOW.md\` or \`handoff/CODEX_PROMPT.md\` to build the app.
-6. Keep \`handoff/DESIGN_RULES.md\` and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
+2. Use \`handoff/COPY_ONCE_PROMPT.md\` when you need the shortest high-signal prompt for token-saving AI work.
+3. Review \`handoff/BASELINE_FRAMEWORK_GUIDE.md\` if you are building from the user's Test Framework baseline.
+4. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
+5. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
+6. Use \`handoff/ANTIGRAVITY_WORKFLOW.md\` or \`handoff/CODEX_PROMPT.md\` to build the app.
+7. Keep \`handoff/DESIGN_RULES.md\` and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
 
 ## Core Files
 - \`styles/theme.css\`
@@ -1767,6 +1849,7 @@ This offline handoff pack was generated by App Style Studio.
           <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-2 mt-4 mb-1 border-t border-[#202538] pt-3">AI Handoff Pack</div>
           {([
             { id: 'ai-prompt', name: 'Copy AI Builder Prompt' },
+            { id: 'copy-once-prompt', name: 'Copy Once Prompt' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },
