@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'screen-build-prompts' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'w3c-tokens' | 'style-dictionary' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'token-savings-prompt' | 'iteration-notes' | 'screen-build-prompts' | 'guardrails' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -147,6 +147,39 @@ Build the complete UI states page. Show loading, empty, error, success, warning,
 \`\`\`text
 Build the Pattern Library screen. Include screen pattern cards for onboarding, pricing, profile, checkout/booking, CRM detail, project board, finance tracker, client portal, and empty state. Include component pattern coverage for nav/sidebar, command bar, cards, stats, charts, tables, filters, forms, modals, toasts, tabs, accordions, badges, file upload, date picker shell, and settings rows.
 \`\`\``;
+
+  const guardrailsPrompt = `# Do Not Change Guardrails - ${detail.theme.name}
+
+Use this file with AI coding tools to prevent design drift. These rules protect the App Style Studio design system, the offline app architecture, and the user's reusable template workflow.
+
+## Protected Design Rules
+- Do not change exported design tokens unless the user explicitly asks for a style change.
+- Do not replace CSS variables with hard-coded colors, spacing, radius, shadows, typography, or motion values.
+- Do not invent new palettes, gradients, fonts, icon styles, border radii, shadow systems, or animation timings.
+- Do not remove accessible focus rings, keyboard states, contrast-safe text colors, labels, helper text, or validation messages.
+- Do not remove loading, empty, error, success, warning, disabled, hover, focus, selected, destructive, and read-only states.
+- Do not change density, scale, present mode, report/export patterns, filter/sort controls, column resizing, or user preference behavior unless asked.
+- Do not introduce a new UI library, charting library, CSS framework, router, state manager, or persistence layer without asking first.
+- Do not rename core files, exported token names, CSS variables, or handoff documents unless the user asks for a migration.
+
+## Protected Architecture Rules
+- Preserve the offline-first Wails + React + TypeScript + SQLite direction when building desktop templates.
+- Preserve the baseline architecture from \`C:\\Users\\Home\\Desktop\\Test Framework\` when the user says to use the baseline.
+- Use \`C:\\Users\\Home\\Desktop\\SAAF CONTRACT MANAGER\` as reference only for mature patterns, not as a file-copy source.
+- Preserve AppShell, sidebar/topbar, settings, preferences, backup/restore, audit logging, migrations, health checks, and export/report conventions where present.
+- Keep generated files readable for non-coders: clear names, plain labels, obvious folders, and no clever abstractions unless they reduce real complexity.
+
+## Allowed Changes
+- Add screens, components, data models, and workflows requested by the user.
+- Improve accessibility, responsiveness, empty states, error handling, performance, and tests while preserving the design tokens.
+- Refactor large files into smaller modules when behavior stays the same and the build remains green.
+- Add comments only where the code would otherwise be hard to understand.
+- Extend templates using the exported theme, component classes, Tailwind mappings, and AI handoff files.
+
+## Before Handoff
+- Run the project build.
+- Report changed files, verification commands, and any gaps.
+- If a requested change conflicts with these guardrails, stop and ask the user before changing protected rules.`;
 
   // 1. CSS VARIABLES
   const themeCss = `/* theme.css - Design Tokens for ${detail.theme.name} */
@@ -2040,6 +2073,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'token-savings-prompt': return { text: tokenSavingsPrompt, filename: 'TOKEN_SAVINGS_PROMPT.md' };
       case 'iteration-notes': return { text: getIterationNotesMarkdown(), filename: 'ITERATION_NOTES.md' };
       case 'screen-build-prompts': return { text: screenBuildPrompts, filename: 'SCREEN_BUILD_PROMPTS.md' };
+      case 'guardrails': return { text: guardrailsPrompt, filename: 'DO_NOT_CHANGE_GUARDRAILS.md' };
       case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
       case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
       case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
@@ -2104,6 +2138,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
+      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2143,6 +2178,7 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
+      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2178,7 +2214,7 @@ This offline handoff pack was generated by App Style Studio.
 4. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
 5. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
 6. Use the relevant per-tool prompt for ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Antigravity, or Codex.
-7. Keep \`handoff/DESIGN_RULES.md\` and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
+7. Keep \`handoff/DO_NOT_CHANGE_GUARDRAILS.md\`, \`handoff/DESIGN_RULES.md\`, and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
 
 ## Core Files
 - \`styles/theme.css\`
@@ -2246,6 +2282,7 @@ Do not redesign the theme. Build with exported tokens, preserve accessibility st
       "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
+      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
       "handoff/DESIGN_RULES.md": designRules,
       "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2350,6 +2387,7 @@ This pack contains focused starter-template instructions generated from App Styl
 - \`shared/styles/components.css\`
 - \`shared/config/tailwind.config.ts\`
 - \`shared/handoff/COPY_ONCE_PROMPT.md\`
+- \`shared/handoff/DO_NOT_CHANGE_GUARDRAILS.md\`
 - \`shared/handoff/DESIGN_RULES.md\`
 - \`shared/handoff/BASELINE_FRAMEWORK_GUIDE.md\`
 - \`shared/handoff/TEMPLATE_STRATEGY.md\`
@@ -2373,6 +2411,7 @@ This pack contains focused starter-template instructions generated from App Styl
       "shared/handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
       "shared/handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
       "shared/handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
+      "shared/handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
       "shared/handoff/DESIGN_RULES.md": designRules,
       "shared/handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
       "shared/handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
@@ -2506,6 +2545,7 @@ ${template.screens.map((screen) => `    ${screen.replace(/[^a-zA-Z0-9]+/g, '')}.
             { id: 'token-savings-prompt', name: 'Token Savings Mode' },
             { id: 'iteration-notes', name: 'Iteration Notes' },
             { id: 'screen-build-prompts', name: 'Screen Build Prompts' },
+            { id: 'guardrails', name: 'Do Not Change Guardrails' },
             { id: 'ai-builder-brief', name: 'AI Builder Brief' },
             { id: 'design-rules', name: 'Design Rules' },
             { id: 'accessibility-notes', name: 'Accessibility Notes' },
