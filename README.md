@@ -1,8 +1,8 @@
-# README
+# App Style Builder
 
 ## About
 
-This is the official Wails React-TS template.
+App Style Builder is a Wails + React + TypeScript desktop app for creating offline-first design systems, previewing app UI patterns, and exporting AI-ready handoff packs for tools like Codex, Antigravity, Google AI Studio, and other builders.
 
 You can configure the project by editing `wails.json`. More information about the project settings can be found
 here: https://wails.io/docs/reference/project-config
