@@ -11,7 +11,7 @@ interface ExportCentreProps {
 }
 
 export function ExportCentre({ detail, mode }: ExportCentreProps) {
-  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
+  const [activeTab, setActiveTab] = useState<'theme-css' | 'tailwind' | 'json' | 'figma-tokens' | 'echarts-theme' | 'components' | 'motion' | 'icons' | 'guide' | 'preview' | 'ai-prompt' | 'copy-once-prompt' | 'ai-builder-brief' | 'design-rules' | 'accessibility-notes' | 'baseline-framework-guide' | 'template-strategy' | 'google-ai-studio-prompt' | 'antigravity-workflow' | 'codex-prompt' | 'chatgpt-prompt' | 'claude-prompt' | 'gemini-prompt' | 'cursor-prompt' | 'lovable-prompt' | 'bolt-prompt' | 'v0-prompt' | 'replit-prompt' | 'react-toggle' | 'react-echarts' | 'go-db' | 'stack-readme'>('theme-css');
   const [copied, setCopied] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const [archiveStatus, setArchiveStatus] = useState<string | null>(null);
@@ -1398,6 +1398,148 @@ Use \`C:\\Users\\Home\\Desktop\\Test Framework\` as the baseline Wails business 
 ## Token-Saving Instruction
 Do not restate the full design system in every response. Read the exported files once, apply them consistently, and only mention token details when they affect an implementation decision.`;
 
+  const makeToolPrompt = (
+    toolName: string,
+    role: string,
+    bestUse: string,
+    extraInstructions: string[]
+  ) => `# ${toolName} Prompt - App Style Studio Handoff
+
+## Role
+${role}
+
+## Best Use
+${bestUse}
+
+## Project Goal
+Build or refine a polished ${detail.theme.app_type} using the App Style Studio export as the source of truth.
+
+## Design Context
+- Theme: ${detail.theme.name}
+- Mood: ${detail.theme.style_mood}
+- Mode: ${mode}
+- Density: ${detail.theme.density}
+- Component style: ${detail.theme.component_style}
+- Blueprint: ${blueprintTitle || 'Not specified'}
+- Audience: ${blueprintAudience || 'Not specified'}
+- Screen pack: ${blueprintScreenSet || 'Not specified'}
+- Target stack: ${blueprintTargetStack || 'Not specified'}
+- Recommended starter: ${recommendedStarterTemplate}
+
+## Required Inputs
+Use these files when available:
+- \`COPY_ONCE_PROMPT.md\`
+- \`AI_BUILDER_BRIEF.md\`
+- \`DESIGN_RULES.md\`
+- \`ACCESSIBILITY_NOTES.md\`
+- \`BASELINE_FRAMEWORK_GUIDE.md\`
+- \`TEMPLATE_STRATEGY.md\`
+- \`theme.css\`
+- \`components.css\`
+- \`tailwind.config.ts\`
+
+## Hard Rules
+- Do not invent a new design system.
+- Do not replace exported tokens with random hex values.
+- Use CSS variables and exported component classes.
+- Preserve visible focus, responsive layouts, and complete UI states.
+- Build reusable components before screens.
+- If this is a Wails desktop app, preserve the Test Framework architecture and local SQLite-first workflow.
+
+## Tool-Specific Instructions
+${extraInstructions.map((item) => `- ${item}`).join('\n')}
+
+## Expected Output
+Return a practical implementation plan or code changes for the chosen tool. Keep the answer concise, file-oriented, and ready to apply.`;
+
+  const chatGptPrompt = makeToolPrompt(
+    'ChatGPT',
+    'Act as a senior product designer and frontend architect helping a non-coder turn a design system into a clear app implementation plan.',
+    'Use this for planning, improving prompts, explaining trade-offs, and generating concise implementation instructions before coding.',
+    [
+      'Start with the screen/component plan, then provide the implementation prompt.',
+      'Use plain English and avoid long theory.',
+      'Keep the output easy to paste into a coding tool.',
+    ]
+  );
+
+  const claudePrompt = makeToolPrompt(
+    'Claude',
+    'Act as a careful product engineer reviewing architecture, UX flow, and design-system consistency.',
+    'Use this for thoughtful planning, docs, refactors, accessibility checks, and careful codebase reasoning.',
+    [
+      'Prioritize risks, missing states, accessibility gaps, and architecture drift.',
+      'Preserve the exported design rules exactly.',
+      'When editing code, keep changes scoped and explain verification steps.',
+    ]
+  );
+
+  const geminiPrompt = makeToolPrompt(
+    'Gemini',
+    'Act as a multimodal product designer and implementation planner.',
+    'Use this for exploring variants, screen ideas, template plans, and Google AI Studio workflows.',
+    [
+      'Generate compact template plans and screen packs.',
+      'Suggest UI variants only within the exported design tokens.',
+      'Return a short implementation prompt for Antigravity, Codex, or another coding tool.',
+    ]
+  );
+
+  const cursorPrompt = makeToolPrompt(
+    'Cursor',
+    'Act as an in-repo coding assistant applying the exported design system to existing files.',
+    'Use this when working directly inside a React, Wails, or Tailwind codebase.',
+    [
+      'Read the local files before editing.',
+      'Wire in theme.css and components.css before restyling screens.',
+      'Use small commits or focused changes, then run the project build.',
+    ]
+  );
+
+  const lovablePrompt = makeToolPrompt(
+    'Lovable',
+    'Act as a no-code app generator that must follow a supplied design system.',
+    'Use this for quick web-app prototypes, SaaS shells, dashboards, landing/onboarding flows, and client portals.',
+    [
+      'Build the first usable screen, not a marketing explanation.',
+      'Use the exported colors, spacing, radius, shadows, and typography.',
+      'Include loading, empty, error, success, and form validation states.',
+    ]
+  );
+
+  const boltPrompt = makeToolPrompt(
+    'Bolt',
+    'Act as a fast full-stack prototype builder using the App Style Studio tokens.',
+    'Use this for rapid React/Tailwind prototypes and starter apps.',
+    [
+      'Create a runnable project structure with reusable UI components.',
+      'Use CSS variables from theme.css instead of hard-coded design values.',
+      'Prioritize app shell, dashboard/list/form/settings screens, then polish states.',
+    ]
+  );
+
+  const v0Prompt = makeToolPrompt(
+    'v0',
+    'Act as a UI generator producing high-quality React components from an existing design system.',
+    'Use this for isolated screens, components, and responsive UI patterns.',
+    [
+      'Generate React + Tailwind components that reference App Style Studio CSS variables.',
+      'Avoid unrelated shadcn/theme changes unless explicitly requested.',
+      'Include desktop and mobile responsive behavior in the generated components.',
+    ]
+  );
+
+  const replitPrompt = makeToolPrompt(
+    'Replit',
+    'Act as an online coding agent building a runnable prototype from exported design rules.',
+    'Use this for quick hosted demos, simple full-stack prototypes, and shareable experiments.',
+    [
+      'Create clear setup/run scripts and keep dependencies minimal.',
+      'Import the exported theme and component CSS at the app entry point.',
+      'Verify the app runs and report the preview URL or run command.',
+    ]
+  );
+
   // 12. HARMONIZED STACK BOILERPLATES
   const reactToggleCode = `import React, { useEffect, useState } from 'react';
 import * as Icons from 'lucide-react';
@@ -1693,6 +1835,14 @@ This bundle contains styling files, config setups, and boilerplate files customi
       case 'google-ai-studio-prompt': return { text: googleAiStudioPrompt, filename: 'GOOGLE_AI_STUDIO_PROMPT.md' };
       case 'antigravity-workflow': return { text: antigravityWorkflow, filename: 'ANTIGRAVITY_WORKFLOW.md' };
       case 'codex-prompt': return { text: codexPrompt, filename: 'CODEX_PROMPT.md' };
+      case 'chatgpt-prompt': return { text: chatGptPrompt, filename: 'CHATGPT_PROMPT.md' };
+      case 'claude-prompt': return { text: claudePrompt, filename: 'CLAUDE_PROMPT.md' };
+      case 'gemini-prompt': return { text: geminiPrompt, filename: 'GEMINI_PROMPT.md' };
+      case 'cursor-prompt': return { text: cursorPrompt, filename: 'CURSOR_PROMPT.md' };
+      case 'lovable-prompt': return { text: lovablePrompt, filename: 'LOVABLE_PROMPT.md' };
+      case 'bolt-prompt': return { text: boltPrompt, filename: 'BOLT_PROMPT.md' };
+      case 'v0-prompt': return { text: v0Prompt, filename: 'V0_PROMPT.md' };
+      case 'replit-prompt': return { text: replitPrompt, filename: 'REPLIT_PROMPT.md' };
       case 'react-toggle': return { text: reactToggleCode, filename: 'ThemeToggle.tsx' };
       case 'react-echarts': return { text: reactEChartsCode, filename: 'EChartsWrapper.tsx' };
       case 'go-db': return { text: goDbCode, filename: 'theme_store.go' };
@@ -1742,6 +1892,14 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/GOOGLE_AI_STUDIO_PROMPT.md": googleAiStudioPrompt,
       "handoff/ANTIGRAVITY_WORKFLOW.md": antigravityWorkflow,
       "handoff/CODEX_PROMPT.md": codexPrompt,
+      "handoff/CHATGPT_PROMPT.md": chatGptPrompt,
+      "handoff/CLAUDE_PROMPT.md": claudePrompt,
+      "handoff/GEMINI_PROMPT.md": geminiPrompt,
+      "handoff/CURSOR_PROMPT.md": cursorPrompt,
+      "handoff/LOVABLE_PROMPT.md": lovablePrompt,
+      "handoff/BOLT_PROMPT.md": boltPrompt,
+      "handoff/V0_PROMPT.md": v0Prompt,
+      "handoff/REPLIT_PROMPT.md": replitPrompt,
       "handoff/ai-prompt.txt": aiPrompt,
       "README.md": stackReadmeCode,
     };
@@ -1770,6 +1928,14 @@ This bundle contains styling files, config setups, and boilerplate files customi
       "handoff/GOOGLE_AI_STUDIO_PROMPT.md": googleAiStudioPrompt,
       "handoff/ANTIGRAVITY_WORKFLOW.md": antigravityWorkflow,
       "handoff/CODEX_PROMPT.md": codexPrompt,
+      "handoff/CHATGPT_PROMPT.md": chatGptPrompt,
+      "handoff/CLAUDE_PROMPT.md": claudePrompt,
+      "handoff/GEMINI_PROMPT.md": geminiPrompt,
+      "handoff/CURSOR_PROMPT.md": cursorPrompt,
+      "handoff/LOVABLE_PROMPT.md": lovablePrompt,
+      "handoff/BOLT_PROMPT.md": boltPrompt,
+      "handoff/V0_PROMPT.md": v0Prompt,
+      "handoff/REPLIT_PROMPT.md": replitPrompt,
       "handoff/ai-prompt.txt": aiPrompt,
       "styles/theme.css": themeCss,
       "styles/components.css": componentsCss,
@@ -1787,7 +1953,7 @@ This offline handoff pack was generated by App Style Studio.
 3. Review \`handoff/BASELINE_FRAMEWORK_GUIDE.md\` if you are building from the user's Test Framework baseline.
 4. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
 5. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
-6. Use \`handoff/ANTIGRAVITY_WORKFLOW.md\` or \`handoff/CODEX_PROMPT.md\` to build the app.
+6. Use the relevant per-tool prompt for ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Antigravity, or Codex.
 7. Keep \`handoff/DESIGN_RULES.md\` and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system or accessibility requirements.
 
 ## Core Files
@@ -1858,6 +2024,14 @@ This offline handoff pack was generated by App Style Studio.
             { id: 'google-ai-studio-prompt', name: 'Google AI Studio Prompt' },
             { id: 'antigravity-workflow', name: 'Antigravity Workflow' },
             { id: 'codex-prompt', name: 'Codex Prompt' },
+            { id: 'chatgpt-prompt', name: 'ChatGPT Prompt' },
+            { id: 'claude-prompt', name: 'Claude Prompt' },
+            { id: 'gemini-prompt', name: 'Gemini Prompt' },
+            { id: 'cursor-prompt', name: 'Cursor Prompt' },
+            { id: 'lovable-prompt', name: 'Lovable Prompt' },
+            { id: 'bolt-prompt', name: 'Bolt Prompt' },
+            { id: 'v0-prompt', name: 'v0 Prompt' },
+            { id: 'replit-prompt', name: 'Replit Prompt' },
           ] as const).map((item) => (
             <button
               key={item.id}

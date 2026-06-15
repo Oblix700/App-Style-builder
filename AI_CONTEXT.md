@@ -238,6 +238,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
 * [x] **Dedicated AI Handoff ZIP:** Export Centre can package handoff prompts, design rules, CSS, Tailwind config, and token JSON without requiring the full stack bundle.
 * [x] **Copy Once Prompt Export:** Export Centre includes `COPY_ONCE_PROMPT.md`, a compact high-signal prompt for token-saving AI handoff, and includes it in Stack ZIP and AI Handoff ZIP exports.
+* [x] **Per-Tool Prompt Presets:** Export Centre includes prompt presets for Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Google AI Studio, and Antigravity.
 * [x] **Baseline Framework Guide Export:** Export Centre includes `BASELINE_FRAMEWORK_GUIDE.md` so AI tools can use `C:\Users\Home\Desktop\Test Framework` as the user's standard Wails business app architecture.
 * [x] **Template Strategy Export:** Export Centre includes `TEMPLATE_STRATEGY.md` so AI tools understand the sequence: build App Style Studio first, create one gold baseline template, then create focused variants.
 
@@ -290,7 +291,7 @@ We are now building toward: **the best non-coder app-style system for creating A
   * [ ] Document/register starter.
   * [ ] Presentation/briefing starter.
   * [ ] CRM/booking/client portal starter.
-* [ ] Add per-tool prompt presets: Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, and Replit.
+* [x] Add per-tool prompt presets: Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, and Replit.
 * [x] Add "copy once" export mode: all critical context in a compact prompt designed to save user tokens.
 * [ ] Add "full handoff" export mode: complete files and README for deeper implementation.
 
@@ -328,6 +329,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Blueprint-driven Preview Routing.
 * [x] Frontend build was verified with `npm run build` after Component Pattern Coverage.
 * [x] Frontend build was verified with `npm run build` after Copy Once Prompt export.
+* [x] Frontend build was verified with `npm run build` after Per-Tool Prompt Presets.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
