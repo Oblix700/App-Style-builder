@@ -1,0 +1,48 @@
+{
+  "colors": {
+    "primary": {
+      "$value": "#3b82f6",
+      "$type": "color"
+    },
+    "secondary": {
+      "$value": "#10b981",
+      "$type": "color"
+    },
+    "bg": {
+      "$value": "#0c0f1b",
+      "$type": "color"
+    }
+  },
+  "radius": {
+    "sm": {
+      "$value": "4px",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": "8px",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "12px",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": "20px",
+      "$type": "dimension"
+    }
+  },
+  "spacing": {
+    "page": {
+      "$value": "16px",
+      "$type": "dimension"
+    },
+    "card": {
+      "$value": "18px",
+      "$type": "dimension"
+    },
+    "cell": {
+      "$value": "8px",
+      "$type": "dimension"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+build/bin
+node_modules
+frontend/dist
+frontend/*.timestamp-*.mjs
+*.db
+*.db-shm
+*.db-wal
+*.log
+.env
+.env.*

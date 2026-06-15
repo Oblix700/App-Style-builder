@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "AppStyleStudio",
+  "outputfilename": "App Style Creator",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Oblix700",
+    "email": "147380647+Oblix700@users.noreply.github.com"
+  }
+}
