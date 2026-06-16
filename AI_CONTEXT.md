@@ -283,6 +283,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Export Recommendation Component Extraction:** Export recommendation rendering now lives in `ExportRecommendationPanel.tsx`, keeping `ExportCentre.tsx` focused on export data and actions.
 * [x] **Next-Best-Action Component Extraction:** Shared next-action banner rendering now lives in `NextBestActionBanner.tsx`, with builder step guidance in `builderNextActions.ts`.
 * [x] **Dashboard Blueprint Picker Extraction:** Guided blueprint selection UI now lives in `DashboardBlueprintPicker.tsx`, reducing dashboard markup inside `App.tsx`.
+* [x] **Dashboard Theme Grid Extraction:** Dashboard theme cards and empty state now live in `DashboardThemeGrid.tsx`, keeping theme operations in `App.tsx` but moving card rendering out.
 
 ---
 
@@ -373,6 +374,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Continue monolith reduction by extracting export recommendation panel.
 * [x] Continue monolith reduction by extracting next-best-action banner and builder guidance data.
 * [x] Continue monolith reduction by extracting dashboard blueprint picker.
+* [x] Continue monolith reduction by extracting dashboard theme grid.
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
 * [x] Frontend build was verified with `npm run build` after AI Builder Brief and Antigravity Workflow exports.
 * [x] Frontend build was verified with `npm run build` after dedicated AI Handoff Pack exports.
@@ -426,6 +428,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Export Recommendation Panel extraction.
 * [x] Frontend build was verified with `npm run build` after Next-Best-Action Banner extraction.
 * [x] Frontend build was verified with `npm run build` after Dashboard Blueprint Picker extraction.
+* [x] Frontend build was verified with `npm run build` after Dashboard Theme Grid extraction.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
