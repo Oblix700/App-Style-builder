@@ -253,6 +253,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Per-Tool Prompt Builder Extraction:** Google AI Studio, Antigravity, Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, and Replit prompt builders now live in `exportCentreToolPrompts.ts`.
 * [x] **Core Handoff Prompt Builder Extraction:** `AI_BUILDER_BRIEF.md`, `COPY_ONCE_PROMPT.md`, and `TOKEN_SAVINGS_PROMPT.md` builders now live in `exportCentreCorePrompts.ts`, keeping the central AI handoff docs testable and out of the main component.
 * [x] **Stack Boilerplate Builder Extraction:** Theme toggle, ECharts wrapper, Go SQLite helper, and stack README exports now live in `exportCentreStackBoilerplates.ts`.
+* [x] **Starter Template ZIP Builder Extraction:** Starter template definitions and generated README/BUILD_PROMPT/FILE_STRUCTURE files now live in `exportCentreStarterTemplates.ts`.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -345,6 +346,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Continue monolith reduction by extracting per-tool prompt builders.
 * [x] Continue monolith reduction by extracting core AI handoff prompt builders.
 * [x] Continue monolith reduction by extracting stack boilerplate builders.
+* [x] Continue monolith reduction by extracting starter template ZIP file generation.
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
 * [x] Frontend build was verified with `npm run build` after AI Builder Brief and Antigravity Workflow exports.
 * [x] Frontend build was verified with `npm run build` after dedicated AI Handoff Pack exports.
@@ -385,6 +387,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Per-Tool Prompt Builder extraction.
 * [x] Frontend build was verified with `npm run build` after Core Handoff Prompt Builder extraction.
 * [x] Frontend build was verified with `npm run build` after Stack Boilerplate Builder extraction.
+* [x] Frontend build was verified with `npm run build` after Starter Template ZIP Builder extraction.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
