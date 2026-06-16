@@ -15,6 +15,7 @@ import { buildAccessibilityNotes, buildDesignRules } from './exportCentreQuality
 import { buildPerToolPrompts } from './exportCentreToolPrompts';
 import { buildStackBoilerplates } from './exportCentreStackBoilerplates';
 import { buildStarterTemplateFiles } from './exportCentreStarterTemplates';
+import { buildAiHandoffZipFiles, buildFullHandoffZipFiles, buildStackZipFiles } from './exportCentreZipFiles';
 
 interface ExportCentreProps {
   detail: ThemeDetail;
@@ -926,6 +927,48 @@ Please inspect the styles, configure Tailwind and the Wails project parameters, 
     goDbCode,
     stackReadmeCode,
   } = buildStackBoilerplates(designColorSummary);
+  const getZipFileInput = () => ({
+    themeName: detail.theme.name,
+    themeCss,
+    componentsCss,
+    motionCss,
+    tailwindConfig,
+    tokensJson,
+    figmaTokensJson,
+    w3cDesignTokensJson,
+    styleDictionaryJson,
+    echartsThemeJson,
+    iconsJson,
+    appPreviewHtml,
+    aiStyleGuide,
+    aiPrompt,
+    aiBuilderBrief,
+    copyOncePrompt,
+    tokenSavingsPrompt,
+    iterationNotes: getIterationNotesMarkdown(),
+    screenBuildPrompts,
+    guardrailsPrompt,
+    boilerplateNamingGuide,
+    designRules,
+    accessibilityNotes,
+    baselineFrameworkGuide,
+    templateStrategy,
+    googleAiStudioPrompt,
+    antigravityWorkflow,
+    codexPrompt,
+    chatGptPrompt,
+    claudePrompt,
+    geminiPrompt,
+    cursorPrompt,
+    lovablePrompt,
+    boltPrompt,
+    v0Prompt,
+    replitPrompt,
+    reactToggleCode,
+    reactEChartsCode,
+    goDbCode,
+    stackReadmeCode,
+  });
 
   // Map tabs to content & suggested filenames
   const getTabContent = () => {
@@ -1001,38 +1044,7 @@ Please inspect the styles, configure Tailwind and the Wails project parameters, 
 
   const handleExportZip = () => {
     setArchiveStatus("Archiving...");
-    const files = {
-      "styles/theme.css": themeCss,
-      "styles/components.css": componentsCss,
-      "config/tailwind.config.ts": tailwindConfig,
-      "components/ThemeToggle.tsx": reactToggleCode,
-      "components/EChartsWrapper.tsx": reactEChartsCode,
-      "database/theme_store.go": goDbCode,
-      "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
-      "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
-      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
-      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
-      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
-      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
-      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
-      "handoff/DESIGN_RULES.md": designRules,
-      "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
-      "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
-      "handoff/TEMPLATE_STRATEGY.md": templateStrategy,
-      "handoff/GOOGLE_AI_STUDIO_PROMPT.md": googleAiStudioPrompt,
-      "handoff/ANTIGRAVITY_WORKFLOW.md": antigravityWorkflow,
-      "handoff/CODEX_PROMPT.md": codexPrompt,
-      "handoff/CHATGPT_PROMPT.md": chatGptPrompt,
-      "handoff/CLAUDE_PROMPT.md": claudePrompt,
-      "handoff/GEMINI_PROMPT.md": geminiPrompt,
-      "handoff/CURSOR_PROMPT.md": cursorPrompt,
-      "handoff/LOVABLE_PROMPT.md": lovablePrompt,
-      "handoff/BOLT_PROMPT.md": boltPrompt,
-      "handoff/V0_PROMPT.md": v0Prompt,
-      "handoff/REPLIT_PROMPT.md": replitPrompt,
-      "handoff/ai-prompt.txt": aiPrompt,
-      "README.md": stackReadmeCode,
-    };
+    const files = buildStackZipFiles(getZipFileInput());
     const zipName = `${detail.theme.name.toLowerCase().replace(/\s+/g, '_')}_stack_bundle.zip`;
     SaveExportZip(zipName, files)
       .then((path) => {
@@ -1048,60 +1060,7 @@ Please inspect the styles, configure Tailwind and the Wails project parameters, 
 
   const handleExportAiHandoffZip = () => {
     setHandoffStatus("Packing...");
-    const files = {
-      "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
-      "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
-      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
-      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
-      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
-      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
-      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
-      "handoff/DESIGN_RULES.md": designRules,
-      "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
-      "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
-      "handoff/TEMPLATE_STRATEGY.md": templateStrategy,
-      "handoff/GOOGLE_AI_STUDIO_PROMPT.md": googleAiStudioPrompt,
-      "handoff/ANTIGRAVITY_WORKFLOW.md": antigravityWorkflow,
-      "handoff/CODEX_PROMPT.md": codexPrompt,
-      "handoff/CHATGPT_PROMPT.md": chatGptPrompt,
-      "handoff/CLAUDE_PROMPT.md": claudePrompt,
-      "handoff/GEMINI_PROMPT.md": geminiPrompt,
-      "handoff/CURSOR_PROMPT.md": cursorPrompt,
-      "handoff/LOVABLE_PROMPT.md": lovablePrompt,
-      "handoff/BOLT_PROMPT.md": boltPrompt,
-      "handoff/V0_PROMPT.md": v0Prompt,
-      "handoff/REPLIT_PROMPT.md": replitPrompt,
-      "handoff/ai-prompt.txt": aiPrompt,
-      "styles/theme.css": themeCss,
-      "styles/components.css": componentsCss,
-      "styles/motion.css": motionCss,
-      "config/tailwind.config.ts": tailwindConfig,
-      "tokens/style-tokens.json": tokensJson,
-      "tokens/figma-tokens.json": figmaTokensJson,
-      "tokens/w3c-design-tokens.json": w3cDesignTokensJson,
-      "tokens/style-dictionary-tokens.json": styleDictionaryJson,
-      "README.md": `# ${detail.theme.name} - AI Handoff Pack
-
-This offline handoff pack was generated by App Style Studio.
-
-## Recommended Workflow
-1. Review \`handoff/AI_BUILDER_BRIEF.md\`.
-2. Use \`handoff/COPY_ONCE_PROMPT.md\` when you need the shortest high-signal prompt for token-saving AI work.
-3. Review \`handoff/BASELINE_FRAMEWORK_GUIDE.md\` if you are building from the user's Test Framework baseline.
-4. Review \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
-5. Use \`handoff/GOOGLE_AI_STUDIO_PROMPT.md\` to generate or refine starter templates.
-6. Use the relevant per-tool prompt for ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, Antigravity, or Codex.
-7. Keep \`handoff/DO_NOT_CHANGE_GUARDRAILS.md\`, \`handoff/BOILERPLATE_NAMING_GUIDE.md\`, \`handoff/DESIGN_RULES.md\`, and \`handoff/ACCESSIBILITY_NOTES.md\` attached so the AI tool does not drift from the design system, file structure, or accessibility requirements.
-
-## Core Files
-- \`styles/theme.css\`
-- \`styles/components.css\`
-- \`config/tailwind.config.ts\`
-- \`tokens/style-tokens.json\`
-- \`tokens/w3c-design-tokens.json\`
-- \`tokens/style-dictionary-tokens.json\`
-`,
-    };
+    const files = buildAiHandoffZipFiles(getZipFileInput());
     const zipName = `${detail.theme.name.toLowerCase().replace(/\s+/g, '_')}_ai_handoff_pack.zip`;
     SaveExportZip(zipName, files)
       .then(() => {
@@ -1117,72 +1076,7 @@ This offline handoff pack was generated by App Style Studio.
 
   const handleExportFullHandoffZip = () => {
     setFullHandoffStatus("Packing...");
-    const files = {
-      "README.md": `# ${detail.theme.name} - Full App Style Studio Handoff
-
-This complete handoff pack includes every export needed for deeper implementation, template creation, and AI-assisted app building.
-
-## Recommended Workflow
-1. Start with \`handoff/COPY_ONCE_PROMPT.md\` when you want the shortest token-saving prompt.
-2. Use \`handoff/AI_BUILDER_BRIEF.md\`, \`handoff/DESIGN_RULES.md\`, and \`handoff/ACCESSIBILITY_NOTES.md\` for complete build guidance.
-3. Use \`handoff/BASELINE_FRAMEWORK_GUIDE.md\` if building from \`C:\\Users\\Home\\Desktop\\Test Framework\`.
-4. Use \`handoff/TEMPLATE_STRATEGY.md\` to keep the gold baseline first and variants second.
-5. Pick the relevant file in \`tool-prompts/\` for your AI tool.
-6. Apply \`styles/theme.css\`, \`styles/components.css\`, \`styles/motion.css\`, and \`config/tailwind.config.ts\` before building screens.
-
-## Folder Map
-- \`styles/\`: CSS variables, component classes, and motion rules.
-- \`config/\`: Tailwind token mapping.
-- \`tokens/\`: JSON exports for tools and future imports.
-- \`handoff/\`: Core AI handoff documents and guardrails.
-- \`tool-prompts/\`: Prompt presets for specific AI builders.
-- \`components/\`: Example React helper components.
-- \`database/\`: Example Wails/SQLite helper.
-- \`previews/\`: Standalone HTML preview.
-
-## Quality Bar
-Do not redesign the theme. Build with exported tokens, preserve accessibility states, verify desktop/tablet/mobile layouts, and run the project build before handoff.
-`,
-      "styles/theme.css": themeCss,
-      "styles/components.css": componentsCss,
-      "styles/motion.css": motionCss,
-      "config/tailwind.config.ts": tailwindConfig,
-      "tokens/style-tokens.json": tokensJson,
-      "tokens/figma-tokens.json": figmaTokensJson,
-      "tokens/w3c-design-tokens.json": w3cDesignTokensJson,
-      "tokens/style-dictionary-tokens.json": styleDictionaryJson,
-      "tokens/echarts-theme.json": echartsThemeJson,
-      "tokens/icons.json": iconsJson,
-      "previews/app-preview.html": appPreviewHtml,
-      "handoff/AI_BUILDER_BRIEF.md": aiBuilderBrief,
-      "handoff/COPY_ONCE_PROMPT.md": copyOncePrompt,
-      "handoff/TOKEN_SAVINGS_PROMPT.md": tokenSavingsPrompt,
-      "handoff/ITERATION_NOTES.md": getIterationNotesMarkdown(),
-      "handoff/SCREEN_BUILD_PROMPTS.md": screenBuildPrompts,
-      "handoff/DO_NOT_CHANGE_GUARDRAILS.md": guardrailsPrompt,
-      "handoff/BOILERPLATE_NAMING_GUIDE.md": boilerplateNamingGuide,
-      "handoff/DESIGN_RULES.md": designRules,
-      "handoff/ACCESSIBILITY_NOTES.md": accessibilityNotes,
-      "handoff/BASELINE_FRAMEWORK_GUIDE.md": baselineFrameworkGuide,
-      "handoff/TEMPLATE_STRATEGY.md": templateStrategy,
-      "handoff/AI_STYLE_GUIDE.md": aiStyleGuide,
-      "handoff/ai-prompt.txt": aiPrompt,
-      "tool-prompts/GOOGLE_AI_STUDIO_PROMPT.md": googleAiStudioPrompt,
-      "tool-prompts/ANTIGRAVITY_WORKFLOW.md": antigravityWorkflow,
-      "tool-prompts/CODEX_PROMPT.md": codexPrompt,
-      "tool-prompts/CHATGPT_PROMPT.md": chatGptPrompt,
-      "tool-prompts/CLAUDE_PROMPT.md": claudePrompt,
-      "tool-prompts/GEMINI_PROMPT.md": geminiPrompt,
-      "tool-prompts/CURSOR_PROMPT.md": cursorPrompt,
-      "tool-prompts/LOVABLE_PROMPT.md": lovablePrompt,
-      "tool-prompts/BOLT_PROMPT.md": boltPrompt,
-      "tool-prompts/V0_PROMPT.md": v0Prompt,
-      "tool-prompts/REPLIT_PROMPT.md": replitPrompt,
-      "components/ThemeToggle.tsx": reactToggleCode,
-      "components/EChartsWrapper.tsx": reactEChartsCode,
-      "database/theme_store.go": goDbCode,
-      "stack/README.md": stackReadmeCode,
-    };
+    const files = buildFullHandoffZipFiles(getZipFileInput());
     const zipName = `${detail.theme.name.toLowerCase().replace(/\s+/g, '_')}_full_handoff_pack.zip`;
     SaveExportZip(zipName, files)
       .then(() => {
