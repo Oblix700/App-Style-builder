@@ -256,6 +256,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Starter Template ZIP Builder Extraction:** Starter template definitions and generated README/BUILD_PROMPT/FILE_STRUCTURE files now live in `exportCentreStarterTemplates.ts`.
 * [x] **ZIP File Map Builder Extraction:** Stack ZIP, AI Handoff ZIP, and Full Handoff ZIP file maps now live in `exportCentreZipFiles.ts`, leaving Export Centre handlers focused on status, save, and logging.
 * [x] **Export Tab Content Registry Extraction:** Export tab text/filename mapping now lives in `exportCentreTabContent.ts`, replacing the large `getTabContent` switch in `ExportCentre.tsx`.
+* [x] **Iteration Notes Helper Extraction:** Iteration snapshot key, snapshot creation, flattening, and markdown generation now live in `exportCentreIterationNotes.ts`.
 * [x] **CLI Import Script:** Implemented at [scripts/import_theme.py](file:///c:/Users/Home/Desktop/App%20Style%20Creator/scripts/import_theme.py).
 * [x] **Wails Stack Harmony Export:** Generates a compressed `.zip` containing `theme.css`, `components.css`, Tailwind config, React helpers, ECharts helper, Go SQLite helper, and README.
 * [x] **AI Handoff Exports:** Export Centre includes `AI_BUILDER_BRIEF.md`, `DESIGN_RULES.md`, `GOOGLE_AI_STUDIO_PROMPT.md`, `ANTIGRAVITY_WORKFLOW.md`, `CODEX_PROMPT.md`, and includes them in ZIP exports.
@@ -351,6 +352,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Continue monolith reduction by extracting starter template ZIP file generation.
 * [x] Continue monolith reduction by extracting Stack, AI Handoff, and Full Handoff ZIP file maps.
 * [x] Continue monolith reduction by extracting export tab content registry.
+* [x] Continue monolith reduction by extracting iteration notes snapshot helpers.
 * [x] Frontend build was verified with `npm run build` after guided blueprint/import summary changes.
 * [x] Frontend build was verified with `npm run build` after AI Builder Brief and Antigravity Workflow exports.
 * [x] Frontend build was verified with `npm run build` after dedicated AI Handoff Pack exports.
@@ -394,6 +396,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Starter Template ZIP Builder extraction.
 * [x] Frontend build was verified with `npm run build` after ZIP File Map Builder extraction.
 * [x] Frontend build was verified with `npm run build` after Export Tab Content Registry extraction.
+* [x] Frontend build was verified with `npm run build` after Iteration Notes Helper extraction.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
