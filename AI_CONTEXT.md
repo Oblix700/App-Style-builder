@@ -28,6 +28,10 @@ The app should borrow the strongest ideas from:
 ### North Star UX
 The best version of App Style Studio should feel like: "Pick the kind of app you are building, choose a visual personality, inspect real screens, adjust plain-language controls, then export an AI-ready style package." Advanced users can still tune tokens directly, but non-coders should never need to understand OKLCH, CSS variables, or Tailwind internals to get a polished result.
 
+The builder experience should feel WYSIWYG: as the user makes choices on the left, the right-side preview should update immediately so they can understand cause and effect without reading documentation. Every meaningful choice should answer, "What changed in my app?" visually and quickly.
+
+First-time users should not be left to choose from a wall of powerful features. The app should guide them with a clear "What do you want to do next?" path: design a new app style, export to Google AI Studio, build in Codex/Antigravity, create starter templates, or improve an existing app.
+
 ### Core Product Thesis
 The strongest product loop is:
 1. Use App Style Studio to create a professional app design system.
@@ -167,6 +171,8 @@ Every major feature should be judged against these questions:
 4. **Is export easy for AI tools?** The user should get copyable prompts, structured tokens, CSS, Tailwind config, and complete starter templates that Codex, ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt, v0, Replit, and similar tools can understand.
 5. **Does it save tokens?** The generated handoff should reduce vague prompting and visual rework by giving AI a complete design system and starter UI kit upfront.
 6. **Can templates become fast app starters?** The app should export boilerplates/templates that let a user quickly create a dashboard, booking app, CRM, client portal, finance tracker, admin panel, or Wails desktop app using the chosen style.
+7. **Is the app understandable on first open?** A non-coder should know the next best action within 30 seconds: create/select a blueprint, adjust style, inspect preview, then export the right handoff.
+8. **Is the builder truly WYSIWYG?** Controls on the left should update the right-side preview immediately, with enough real screens/states that the user can trust what will be exported.
 
 ### Sajid-Inspired Product Principles
 * **Keep the model simple:** Start from Sajid's core axes: Neutral/Vivid, Warmer/Cooler, Contrast, Gradients, Highlight, and Shadows.
@@ -402,6 +408,19 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [ ] Use browser visual QA for major UI layout changes.
 * [ ] Maintain AI_CONTEXT.md after each completed phase so future sessions continue from the real state.
 
+### Phase 8 - First-Time User Guidance and WYSIWYG Confidence
+* [ ] Add a first-run "What do you want to do next?" decision panel:
+  * [ ] Design a new app style.
+  * [ ] Export to Google AI Studio.
+  * [ ] Build in Codex/Antigravity.
+  * [ ] Create starter templates.
+  * [ ] Improve an existing app.
+* [ ] Add next-best-action guidance after each major step: after blueprint creation, after style edits, after preview inspection, and after export.
+* [ ] Make the WYSIWYG promise explicit in the UI: left-side choices update the right-side preview immediately.
+* [ ] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
+* [ ] Add an export recommendation panel that tells non-coders exactly which export to use for Google AI Studio, Codex/Antigravity, templates, or direct developer handoff.
+* [ ] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.
+
 ---
 
 ## 5. Instructions for Future AI Models
@@ -417,5 +436,7 @@ If you are continuing work on this codebase in a new session:
 4. **Non-Coder Product Rules:**
    * Prefer plain-language controls first and token-level controls second.
    * Every advanced concept should have a visible effect in the preview.
+   * Preserve WYSIWYG behavior: user choices should update the right-side preview immediately.
+   * Provide a next-best-action path so first-time users are never stranded.
    * Import/export flows must explain what happened in human language.
    * The app should always help the user make a good decision, not just expose more sliders.
