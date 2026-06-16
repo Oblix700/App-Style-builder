@@ -15,6 +15,7 @@ import { buildAccessibilityNotes, buildDesignRules } from './exportCentreQuality
 import { buildPerToolPrompts } from './exportCentreToolPrompts';
 import { buildStackBoilerplates } from './exportCentreStackBoilerplates';
 import { buildStarterTemplateFiles } from './exportCentreStarterTemplates';
+import { buildExportTabContent } from './exportCentreTabContent';
 import { buildAiHandoffZipFiles, buildFullHandoffZipFiles, buildStackZipFiles } from './exportCentreZipFiles';
 
 interface ExportCentreProps {
@@ -970,52 +971,49 @@ Please inspect the styles, configure Tailwind and the Wails project parameters, 
     stackReadmeCode,
   });
 
-  // Map tabs to content & suggested filenames
-  const getTabContent = () => {
-    switch (activeTab) {
-      case 'theme-css': return { text: themeCss, filename: 'theme.css' };
-      case 'tailwind': return { text: tailwindConfig, filename: 'tailwind.config.ts' };
-      case 'json': return { text: tokensJson, filename: 'style-tokens.json' };
-      case 'figma-tokens': return { text: figmaTokensJson, filename: 'figma-tokens.json' };
-      case 'w3c-tokens': return { text: w3cDesignTokensJson, filename: 'w3c-design-tokens.json' };
-      case 'style-dictionary': return { text: styleDictionaryJson, filename: 'style-dictionary-tokens.json' };
-      case 'echarts-theme': return { text: echartsThemeJson, filename: 'echarts-theme.json' };
-      case 'components': return { text: componentsCss, filename: 'components.css' };
-      case 'motion': return { text: motionCss, filename: 'motion.css' };
-      case 'icons': return { text: iconsJson, filename: 'icons.json' };
-      case 'guide': return { text: aiStyleGuide, filename: 'ai-style-guide.md' };
-      case 'preview': return { text: appPreviewHtml, filename: 'app-preview.html' };
-      case 'ai-prompt': return { text: aiPrompt, filename: 'ai-prompt.txt' };
-      case 'copy-once-prompt': return { text: copyOncePrompt, filename: 'COPY_ONCE_PROMPT.md' };
-      case 'token-savings-prompt': return { text: tokenSavingsPrompt, filename: 'TOKEN_SAVINGS_PROMPT.md' };
-      case 'iteration-notes': return { text: getIterationNotesMarkdown(), filename: 'ITERATION_NOTES.md' };
-      case 'screen-build-prompts': return { text: screenBuildPrompts, filename: 'SCREEN_BUILD_PROMPTS.md' };
-      case 'guardrails': return { text: guardrailsPrompt, filename: 'DO_NOT_CHANGE_GUARDRAILS.md' };
-      case 'boilerplate-naming-guide': return { text: boilerplateNamingGuide, filename: 'BOILERPLATE_NAMING_GUIDE.md' };
-      case 'ai-builder-brief': return { text: aiBuilderBrief, filename: 'AI_BUILDER_BRIEF.md' };
-      case 'design-rules': return { text: designRules, filename: 'DESIGN_RULES.md' };
-      case 'accessibility-notes': return { text: accessibilityNotes, filename: 'ACCESSIBILITY_NOTES.md' };
-      case 'baseline-framework-guide': return { text: baselineFrameworkGuide, filename: 'BASELINE_FRAMEWORK_GUIDE.md' };
-      case 'template-strategy': return { text: templateStrategy, filename: 'TEMPLATE_STRATEGY.md' };
-      case 'google-ai-studio-prompt': return { text: googleAiStudioPrompt, filename: 'GOOGLE_AI_STUDIO_PROMPT.md' };
-      case 'antigravity-workflow': return { text: antigravityWorkflow, filename: 'ANTIGRAVITY_WORKFLOW.md' };
-      case 'codex-prompt': return { text: codexPrompt, filename: 'CODEX_PROMPT.md' };
-      case 'chatgpt-prompt': return { text: chatGptPrompt, filename: 'CHATGPT_PROMPT.md' };
-      case 'claude-prompt': return { text: claudePrompt, filename: 'CLAUDE_PROMPT.md' };
-      case 'gemini-prompt': return { text: geminiPrompt, filename: 'GEMINI_PROMPT.md' };
-      case 'cursor-prompt': return { text: cursorPrompt, filename: 'CURSOR_PROMPT.md' };
-      case 'lovable-prompt': return { text: lovablePrompt, filename: 'LOVABLE_PROMPT.md' };
-      case 'bolt-prompt': return { text: boltPrompt, filename: 'BOLT_PROMPT.md' };
-      case 'v0-prompt': return { text: v0Prompt, filename: 'V0_PROMPT.md' };
-      case 'replit-prompt': return { text: replitPrompt, filename: 'REPLIT_PROMPT.md' };
-      case 'react-toggle': return { text: reactToggleCode, filename: 'ThemeToggle.tsx' };
-      case 'react-echarts': return { text: reactEChartsCode, filename: 'EChartsWrapper.tsx' };
-      case 'go-db': return { text: goDbCode, filename: 'theme_store.go' };
-      case 'stack-readme': return { text: stackReadmeCode, filename: 'README.md' };
-    }
-  };
+  const tabContent = buildExportTabContent({
+    themeCss,
+    tailwindConfig,
+    tokensJson,
+    figmaTokensJson,
+    w3cDesignTokensJson,
+    styleDictionaryJson,
+    echartsThemeJson,
+    componentsCss,
+    motionCss,
+    iconsJson,
+    aiStyleGuide,
+    appPreviewHtml,
+    aiPrompt,
+    copyOncePrompt,
+    tokenSavingsPrompt,
+    iterationNotes: getIterationNotesMarkdown(),
+    screenBuildPrompts,
+    guardrailsPrompt,
+    boilerplateNamingGuide,
+    aiBuilderBrief,
+    designRules,
+    accessibilityNotes,
+    baselineFrameworkGuide,
+    templateStrategy,
+    googleAiStudioPrompt,
+    antigravityWorkflow,
+    codexPrompt,
+    chatGptPrompt,
+    claudePrompt,
+    geminiPrompt,
+    cursorPrompt,
+    lovablePrompt,
+    boltPrompt,
+    v0Prompt,
+    replitPrompt,
+    reactToggleCode,
+    reactEChartsCode,
+    goDbCode,
+    stackReadmeCode,
+  });
 
-  const current = getTabContent();
+  const current = tabContent[activeTab];
 
   const handleCopy = () => {
     if (!current) return;
