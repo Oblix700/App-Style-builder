@@ -6,6 +6,8 @@ import { PreviewEngine } from './components/PreviewEngine';
 import { PreviewGallery } from './components/PreviewGallery';
 import { ExportCentre } from './components/ExportCentre';
 import { DashboardGuidancePanels } from './components/DashboardGuidancePanels';
+import { NextBestActionBanner } from './components/NextBestActionBanner';
+import { getBuilderNextAction } from './components/builderNextActions';
 
 import * as Bindings from '../wailsjs/go/main/App';
 import * as Icons from 'lucide-react';
@@ -413,120 +415,6 @@ function App() {
       action: () => setActiveScreen('export'),
     },
   ];
-
-  const getBuilderNextAction = () => {
-    const nextStep = Math.min(activeStep + 1, 7);
-    const actions = [
-      {
-        title: 'Next: choose the app personality',
-        description: 'Use the plain-English buttons first. Watch the preview on the right and stop when it feels close.',
-        button: 'Tune colours',
-        icon: Icons.Sparkles,
-        action: () => setActiveStep(1),
-      },
-      {
-        title: 'Next: check readability',
-        description: 'Colours are the emotional layer. After this, make sure the type feels clear and professional.',
-        button: 'Tune fonts',
-        icon: Icons.Type,
-        action: () => setActiveStep(2),
-      },
-      {
-        title: 'Next: set the breathing room',
-        description: 'Typography sets trust. Spacing decides whether the app feels cramped, calm, or premium.',
-        button: 'Tune spacing',
-        icon: Icons.Grid,
-        action: () => setActiveStep(3),
-      },
-      {
-        title: 'Next: shape the interface',
-        description: 'Use the preview to test tables, cards, forms, and reports before changing corners or shadows.',
-        button: 'Tune elevation',
-        icon: Icons.Layers,
-        action: () => setActiveStep(4),
-      },
-      {
-        title: 'Next: make actions recognizable',
-        description: 'Corners and shadows are now set. Icons make buttons, menus, and app actions easier to understand.',
-        button: 'Tune icons',
-        icon: Icons.Smile,
-        action: () => setActiveStep(5),
-      },
-      {
-        title: 'Next: test movement',
-        description: 'Icons are mapped. Add only enough motion to make the app feel responsive and polished.',
-        button: 'Tune motion',
-        icon: Icons.Activity,
-        action: () => setActiveStep(6),
-      },
-      {
-        title: 'Next: compare against full presets',
-        description: 'Motion is the final polish layer. Use presets only if you want to change the whole direction.',
-        button: 'View presets',
-        icon: Icons.BookOpen,
-        action: () => setActiveStep(7),
-      },
-      {
-        title: 'Next: export for your AI workflow',
-        description: 'If the preview feels right, export a compact handoff for Google AI Studio, Codex, or Antigravity.',
-        button: 'Open exports',
-        icon: Icons.Download,
-        action: () => setActiveScreen('export'),
-      },
-    ];
-
-    return actions[activeStep] || actions[nextStep];
-  };
-
-  const NextBestActionBanner = ({
-    title,
-    description,
-    button,
-    icon: Icon,
-    onAction,
-    secondary,
-    onSecondary,
-  }: {
-    title: string;
-    description: string;
-    button: string;
-    icon: React.ElementType;
-    onAction: () => void;
-    secondary?: string;
-    onSecondary?: () => void;
-  }) => (
-    <div className="rounded-xl border border-[#202538] bg-[#101422] p-4 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
-      <div className="flex items-start gap-3">
-        <div className="w-9 h-9 rounded-lg bg-[#1a1f35] border border-[#252c47] flex items-center justify-center text-[var(--primary)] shrink-0">
-          <Icon size={17} />
-        </div>
-        <div>
-          <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary)]">Next best action</div>
-          <h3 className="text-sm font-bold text-white mt-0.5">{title}</h3>
-          <p className="text-[11px] text-gray-400 leading-relaxed mt-1">{description}</p>
-        </div>
-      </div>
-      <div className="flex gap-2 shrink-0">
-        {secondary && onSecondary && (
-          <button
-            type="button"
-            onClick={onSecondary}
-            className="px-3 py-1.5 bg-[#1a1e32] border border-[#242b47] hover:bg-[#202640] rounded-lg text-gray-300 text-xs font-semibold"
-          >
-            {secondary}
-          </button>
-        )}
-        <button
-          type="button"
-          onClick={onAction}
-          className="px-3.5 py-1.5 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5"
-        >
-          {button}
-          <Icons.ArrowRight size={13} />
-        </button>
-      </div>
-    </div>
-  );
 
   const getImportAnalysis = (detail: ThemeDetail) => {
     const template = PresetThemes[0];
@@ -1697,14 +1585,17 @@ function App() {
                   </div>
                   <div className="mt-4">
                     {(() => {
-                      const builderAction = getBuilderNextAction();
+                      const builderAction = getBuilderNextAction(activeStep);
                       return (
                         <NextBestActionBanner
                           title={builderAction.title}
                           description={builderAction.description}
                           button={builderAction.button}
                           icon={builderAction.icon}
-                          onAction={builderAction.action}
+                          onAction={() => {
+                            if (builderAction.targetScreen === 'export') setActiveScreen('export');
+                            else if (typeof builderAction.targetStep === 'number') setActiveStep(builderAction.targetStep);
+                          }}
                           secondary="Inspect preview"
                           onSecondary={() => showNotification('Use the right-side preview tabs to check dashboards, tables, forms, reports, states, and patterns before export.', 'info')}
                         />
