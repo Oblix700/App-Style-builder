@@ -33,6 +33,7 @@ function App() {
   const [selectedBlueprintScreenSet, setSelectedBlueprintScreenSet] = useState('Dashboard + register + reports');
   const [selectedBlueprintStack, setSelectedBlueprintStack] = useState('Offline Wails desktop');
   const [selectedMappingKey, setSelectedMappingKey] = useState<string>('Dashboard');
+  const [previewFeedback, setPreviewFeedback] = useState<string | null>(null);
   const [iconSearchQuery, setIconSearchQuery] = useState<string>('');
   const [sandboxTranslate, setSandboxTranslate] = useState<boolean>(false);
   const [sandboxTestCurve, setSandboxTestCurve] = useState<'standard' | 'emphasised' | 'bounce'>('bounce');
@@ -41,6 +42,7 @@ function App() {
   const imageRef = React.useRef<HTMLImageElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewFeedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -158,11 +160,20 @@ function App() {
   useEffect(() => {
     refreshThemes();
     loadExportHistory();
+    return () => {
+      if (previewFeedbackTimerRef.current) clearTimeout(previewFeedbackTimerRef.current);
+    };
   }, []);
 
   const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
+  };
+
+  const showPreviewFeedback = (message: string) => {
+    setPreviewFeedback(message);
+    if (previewFeedbackTimerRef.current) clearTimeout(previewFeedbackTimerRef.current);
+    previewFeedbackTimerRef.current = setTimeout(() => setPreviewFeedback(null), 1800);
   };
 
   const renderMappedIcon = (actionKey: string, className = '', overrideSize?: string) => {
@@ -936,6 +947,8 @@ function App() {
     }
 
     handleAutosave(updated);
+    const appliedAction = plainEnglishStyleActions.find((item) => item.key === action);
+    showPreviewFeedback(`Preview updated: ${appliedAction?.label || action}`);
     showNotification(`Applied: make it ${action}`, 'success');
   };
 
@@ -1718,9 +1731,16 @@ function App() {
                               Quick changes for non-coders. These update spacing, corners, shadows, fonts, and color intensity together.
                             </p>
                           </div>
-                          <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#1c223c] text-gray-300 font-bold uppercase shrink-0">
-                            Easy
-                          </span>
+                          <div className="flex flex-col items-end gap-1.5 shrink-0">
+                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#1c223c] text-gray-300 font-bold uppercase">
+                              Easy
+                            </span>
+                            {previewFeedback && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-green-950/50 border border-green-800/70 text-green-300 font-bold uppercase animate-pulse">
+                                Preview updated
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -3431,7 +3451,7 @@ function App() {
             </div>
 
             {/* Right Hand Live Preview Gallery */}
-            <div className="flex-1 overflow-hidden">
+            <div className={`flex-1 overflow-hidden relative ${previewFeedback ? 'pulse-highlight' : ''}`}>
               <style>{`
                 @keyframes pulseGlow {
                   0% { box-shadow: 0 0 0 0px rgba(98, 113, 243, 0.8); outline: 2px solid var(--primary); }
@@ -3442,6 +3462,11 @@ function App() {
                   animation: pulseGlow 1.2s cubic-bezier(0.24, 0, 0.2, 1);
                 }
               `}</style>
+              {previewFeedback && (
+                <div className="absolute top-4 right-4 z-40 rounded-full border border-green-800/70 bg-green-950/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-green-200 shadow-lg backdrop-blur">
+                  {previewFeedback}
+                </div>
+              )}
               <PreviewGallery 
                 detail={activeThemeDetail} 
                 mode={previewMode} 

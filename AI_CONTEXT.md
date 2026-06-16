@@ -276,6 +276,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **First-Time Next Action Panel:** Dashboard now asks "What do you want to do next?" and routes non-coders toward designing a style, exporting to Google AI Studio, building in Codex/Antigravity, creating starter templates, or improving an existing app.
 * [x] **Visible WYSIWYG Promise:** Dashboard now explicitly tells users that Builder choices on the left update the live preview on the right immediately.
 * [x] **Next-Best-Action Guidance:** Builder and Export screens now show state-aware guidance so non-coders know when to tune the next style layer, inspect the preview, or pick the correct AI/export workflow.
+* [x] **Preview Updated Feedback:** Plain-English style controls now show a short "Preview updated" confirmation and pulse the live preview surface after a non-coder applies a style direction.
 
 ---
 
@@ -408,6 +409,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Iteration Notes Helper extraction.
 * [x] Frontend build was verified with `npm run build` after First-Time Next Action Panel.
 * [x] Frontend build was verified with `npm run build` after Next-Best-Action Guidance.
+* [x] Frontend build was verified with `npm run build` after Preview Updated Feedback.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
@@ -422,7 +424,7 @@ We are now building toward: **the best non-coder app-style system for creating A
   * [x] Improve an existing app.
 * [x] Add next-best-action guidance after each major step: after blueprint creation, after style edits, after preview inspection, and after export.
 * [x] Make the WYSIWYG promise explicit in the UI: left-side choices update the right-side preview immediately.
-* [ ] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
+* [x] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
 * [ ] Add an export recommendation panel that tells non-coders exactly which export to use for Google AI Studio, Codex/Antigravity, templates, or direct developer handoff.
 * [ ] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.
 
