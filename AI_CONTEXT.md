@@ -273,6 +273,8 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Starter Template ZIPs:** Export Centre includes a `starter_templates.zip` with Core Wails Business App, React + Tailwind App Shell, Admin Dashboard, Document/Register, Presentation/Briefing, and CRM/Booking/Client Portal starter packs.
 * [x] **Baseline Framework Guide Export:** Export Centre includes `BASELINE_FRAMEWORK_GUIDE.md` so AI tools can use `C:\Users\Home\Desktop\Test Framework` as the user's standard Wails business app architecture.
 * [x] **Template Strategy Export:** Export Centre includes `TEMPLATE_STRATEGY.md` so AI tools understand the sequence: build App Style Studio first, create one gold baseline template, then create focused variants.
+* [x] **First-Time Next Action Panel:** Dashboard now asks "What do you want to do next?" and routes non-coders toward designing a style, exporting to Google AI Studio, building in Codex/Antigravity, creating starter templates, or improving an existing app.
+* [x] **Visible WYSIWYG Promise:** Dashboard now explicitly tells users that Builder choices on the left update the live preview on the right immediately.
 
 ---
 
@@ -403,20 +405,21 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after ZIP File Map Builder extraction.
 * [x] Frontend build was verified with `npm run build` after Export Tab Content Registry extraction.
 * [x] Frontend build was verified with `npm run build` after Iteration Notes Helper extraction.
+* [x] Frontend build was verified with `npm run build` after First-Time Next Action Panel.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
 * [ ] Maintain AI_CONTEXT.md after each completed phase so future sessions continue from the real state.
 
 ### Phase 8 - First-Time User Guidance and WYSIWYG Confidence
-* [ ] Add a first-run "What do you want to do next?" decision panel:
-  * [ ] Design a new app style.
-  * [ ] Export to Google AI Studio.
-  * [ ] Build in Codex/Antigravity.
-  * [ ] Create starter templates.
-  * [ ] Improve an existing app.
+* [x] Add a first-run "What do you want to do next?" decision panel:
+  * [x] Design a new app style.
+  * [x] Export to Google AI Studio.
+  * [x] Build in Codex/Antigravity.
+  * [x] Create starter templates.
+  * [x] Improve an existing app.
 * [ ] Add next-best-action guidance after each major step: after blueprint creation, after style edits, after preview inspection, and after export.
-* [ ] Make the WYSIWYG promise explicit in the UI: left-side choices update the right-side preview immediately.
+* [x] Make the WYSIWYG promise explicit in the UI: left-side choices update the right-side preview immediately.
 * [ ] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
 * [ ] Add an export recommendation panel that tells non-coders exactly which export to use for Google AI Studio, Codex/Antigravity, templates, or direct developer handoff.
 * [ ] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.

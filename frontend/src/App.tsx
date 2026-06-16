@@ -305,6 +305,54 @@ function App() {
       });
   };
 
+  const nextActionGuides: Array<{
+    title: string;
+    description: string;
+    badge: string;
+    icon: React.ElementType;
+    needsTheme?: boolean;
+    action: () => void;
+  }> = [
+    {
+      title: 'Design new style',
+      description: 'Start from a blueprint, then tune the live preview.',
+      badge: 'Best first step',
+      icon: Icons.WandSparkles,
+      action: () => handleCreateTheme(),
+    },
+    {
+      title: 'Export to Google AI Studio',
+      description: 'Prepare a compact prompt and design pack for planning.',
+      badge: activeThemeDetail ? 'Ready' : 'Select theme first',
+      icon: Icons.Bot,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+    {
+      title: 'Build in Codex or Antigravity',
+      description: 'Use the handoff pack to build the app from the style.',
+      badge: activeThemeDetail ? 'Ready' : 'Select theme first',
+      icon: Icons.TerminalSquare,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+    {
+      title: 'Create starter templates',
+      description: 'Export reusable boilerplates for faster future builds.',
+      badge: activeThemeDetail ? 'Ready' : 'Select theme first',
+      icon: Icons.PackagePlus,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+    {
+      title: 'Improve existing app',
+      description: 'Import tokens or drop files here to review your current style.',
+      badge: 'Import path',
+      icon: Icons.UploadCloud,
+      action: () => showNotification('Use Import Tokens or drag a JSON, CSS, Tailwind, or text token file into this workspace.', 'info'),
+    },
+  ];
+
   const getImportAnalysis = (detail: ThemeDetail) => {
     const template = PresetThemes[0];
     const colorKeys = Object.keys(detail.colour_tokens.overrides || {});
@@ -1209,6 +1257,58 @@ function App() {
                   <Icons.Plus size={16} />
                   Create Blueprint
                 </button>
+              </div>
+            </div>
+
+            <div className="bg-[#0f121e] border border-[#202538] rounded-xl p-5 space-y-4">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] mb-1">
+                    <Icons.Compass size={14} />
+                    First-time guide
+                  </div>
+                  <h2 className="text-lg font-bold text-white">What do you want to do next?</h2>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Pick a path. In Builder, choices on the left update the live preview on the right immediately.
+                  </p>
+                </div>
+                <span className="text-[10px] px-2.5 py-1 rounded-full bg-[#1c223c] text-gray-300 font-semibold uppercase shrink-0">
+                  WYSIWYG preview
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3">
+                {nextActionGuides.map((guide) => {
+                  const Icon = guide.icon;
+                  const disabled = Boolean(guide.needsTheme && !activeThemeDetail);
+
+                  return (
+                    <button
+                      key={guide.title}
+                      type="button"
+                      disabled={disabled}
+                      onClick={guide.action}
+                      className={`text-left bg-[#121625] border rounded-lg p-3 transition-all group ${
+                        disabled
+                          ? 'border-[#202538] opacity-55 cursor-not-allowed'
+                          : 'border-[#202538] hover:border-[var(--primary)] hover:bg-[#171c2f] hover:-translate-y-0.5'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#1a1f35] border border-[#252c47] flex items-center justify-center text-[var(--primary)]">
+                          <Icon size={16} />
+                        </div>
+                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide ${
+                          disabled ? 'bg-[#202538] text-gray-500' : 'bg-[var(--primary-soft)] text-[var(--primary)]'
+                        }`}>
+                          {guide.badge}
+                        </span>
+                      </div>
+                      <h3 className="text-sm font-bold text-white mb-1">{guide.title}</h3>
+                      <p className="text-[11px] leading-relaxed text-gray-400">{guide.description}</p>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
