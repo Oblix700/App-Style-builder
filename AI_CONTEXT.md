@@ -278,6 +278,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Next-Best-Action Guidance:** Builder and Export screens now show state-aware guidance so non-coders know when to tune the next style layer, inspect the preview, or pick the correct AI/export workflow.
 * [x] **Preview Updated Feedback:** Plain-English style controls now show a short "Preview updated" confirmation and pulse the live preview surface after a non-coder applies a style direction.
 * [x] **Export Recommendation Panel:** Export Centre now explains which path to use for Google AI Studio planning, Codex/Antigravity building, starter templates, and full developer handoff.
+* [x] **Non-Coder Usability Checklist:** Dashboard now includes the release checklist for first action clarity, export language, WYSIWYG confidence, export choice, and token-saving workflow.
 
 ---
 
@@ -412,6 +413,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Next-Best-Action Guidance.
 * [x] Frontend build was verified with `npm run build` after Preview Updated Feedback.
 * [x] Frontend build was verified with `npm run build` after Export Recommendation Panel.
+* [x] Frontend build was verified with `npm run build` after Non-Coder Usability Checklist.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
@@ -428,7 +430,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Make the WYSIWYG promise explicit in the UI: left-side choices update the right-side preview immediately.
 * [x] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
 * [x] Add an export recommendation panel that tells non-coders exactly which export to use for Google AI Studio, Codex/Antigravity, templates, or direct developer handoff.
-* [ ] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.
+* [x] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.
 
 ---
 

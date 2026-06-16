@@ -364,6 +364,55 @@ function App() {
     },
   ];
 
+  const nonCoderUsabilityChecklist: Array<{
+    label: string;
+    detail: string;
+    status: string;
+    icon: React.ElementType;
+    needsTheme?: boolean;
+    action: () => void;
+  }> = [
+    {
+      label: 'First action is clear',
+      detail: 'The dashboard asks what the user wants to do next before showing advanced detail.',
+      status: 'Covered',
+      icon: Icons.MousePointerClick,
+      action: () => showNotification('Start with the first-time guide, then create or import a theme.', 'info'),
+    },
+    {
+      label: 'No unexplained export jargon',
+      detail: 'Export recommendations translate files into planning, building, templates, and handoff.',
+      status: 'Covered',
+      icon: Icons.MessageSquareText,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+    {
+      label: 'Preview reflects choices',
+      detail: 'Builder controls update the right-side preview and show a short confirmation.',
+      status: 'Covered',
+      icon: Icons.Eye,
+      needsTheme: true,
+      action: () => setActiveScreen('builder'),
+    },
+    {
+      label: 'Export choice is obvious',
+      detail: 'The Export Centre recommends Google AI Studio, Codex/Antigravity, templates, or developer handoff.',
+      status: 'Covered',
+      icon: Icons.Compass,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+    {
+      label: 'Token-saving workflow makes sense',
+      detail: 'Copy Once, Token Savings, Iteration Notes, and starter templates reduce repeated AI context.',
+      status: 'Covered',
+      icon: Icons.Coins,
+      needsTheme: true,
+      action: () => setActiveScreen('export'),
+    },
+  ];
+
   const getBuilderNextAction = () => {
     const nextStep = Math.min(activeStep + 1, 7);
     const actions = [
@@ -1433,6 +1482,58 @@ function App() {
                       </div>
                       <h3 className="text-sm font-bold text-white mb-1">{guide.title}</h3>
                       <p className="text-[11px] leading-relaxed text-gray-400">{guide.description}</p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="bg-[#0f121e] border border-[#202538] rounded-xl p-5 space-y-4">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] mb-1">
+                    <Icons.ClipboardCheck size={14} />
+                    Non-coder usability checklist
+                  </div>
+                  <h2 className="text-lg font-bold text-white">Can someone use this without coding?</h2>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Use this as the release test: first action, clear language, live preview, obvious export, and token-saving workflow.
+                  </p>
+                </div>
+                <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-950/50 border border-green-800/70 text-green-300 font-semibold uppercase shrink-0">
+                  Phase 8 covered
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3">
+                {nonCoderUsabilityChecklist.map((item) => {
+                  const Icon = item.icon;
+                  const disabled = Boolean(item.needsTheme && !activeThemeDetail);
+
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      disabled={disabled}
+                      onClick={item.action}
+                      className={`text-left rounded-lg border p-3 transition-all ${
+                        disabled
+                          ? 'bg-[#121625] border-[#202538] opacity-55 cursor-not-allowed'
+                          : 'bg-[#121625] border-[#202538] hover:bg-[#171c2f] hover:border-[var(--primary)]'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-[#1a1f35] border border-[#252c47] flex items-center justify-center text-[var(--primary)]">
+                          <Icon size={16} />
+                        </div>
+                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase ${
+                          disabled ? 'bg-[#202538] text-gray-500' : 'bg-green-950/50 text-green-300 border border-green-800/70'
+                        }`}>
+                          {disabled ? 'Needs theme' : item.status}
+                        </span>
+                      </div>
+                      <h3 className="text-xs font-bold text-white">{item.label}</h3>
+                      <p className="text-[10px] leading-relaxed text-gray-400 mt-1">{item.detail}</p>
                     </button>
                   );
                 })}
