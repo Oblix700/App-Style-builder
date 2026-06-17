@@ -173,7 +173,7 @@ export function WorkspaceRibbon({
           </button>
           <div className="h-4 w-px bg-[#2b3352] mx-1" />
           <span className="text-[10px] text-gray-400 max-w-[220px] truncate">
-            {activeThemeName || 'No active theme'} · {activeScreen} · {previewMode}
+            {activeThemeName || 'No active theme'} / {activeScreen} / {previewMode}
           </span>
         </div>
       </div>

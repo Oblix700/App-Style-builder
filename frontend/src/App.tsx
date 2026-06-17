@@ -11,6 +11,7 @@ import { DashboardThemeGrid } from './components/DashboardThemeGrid';
 import { NextBestActionBanner } from './components/NextBestActionBanner';
 import { getBuilderNextAction } from './components/builderNextActions';
 import { WorkspaceRibbon } from './components/WorkspaceRibbon';
+import { WorkspaceContextBar } from './components/WorkspaceContextBar';
 
 import * as Bindings from '../wailsjs/go/main/App';
 import * as Icons from 'lucide-react';
@@ -1194,6 +1195,17 @@ function App() {
           onNavigate={setActiveScreen}
           onCreateBlueprint={() => handleCreateTheme()}
           onImportTokens={handleImportJsonFile}
+          onSetBuilderStep={setActiveStep}
+          onTogglePreviewMode={() => setPreviewMode(previewMode === 'dark' ? 'light' : 'dark')}
+          onNotify={(message) => showNotification(message, 'info')}
+        />
+        <WorkspaceContextBar
+          activeScreen={activeScreen}
+          activeStep={activeStep}
+          hasActiveTheme={Boolean(activeThemeDetail)}
+          previewMode={previewMode}
+          designHealthScore={designHealth.score}
+          onNavigate={setActiveScreen}
           onSetBuilderStep={setActiveStep}
           onTogglePreviewMode={() => setPreviewMode(previewMode === 'dark' ? 'light' : 'dark')}
           onNotify={(message) => showNotification(message, 'info')}

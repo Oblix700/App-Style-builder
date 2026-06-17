@@ -290,6 +290,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Dashboard Blueprint Picker Extraction:** Guided blueprint selection UI now lives in `DashboardBlueprintPicker.tsx`, reducing dashboard markup inside `App.tsx`.
 * [x] **Dashboard Theme Grid Extraction:** Dashboard theme cards and empty state now live in `DashboardThemeGrid.tsx`, keeping theme operations in `App.tsx` but moving card rendering out.
 * [x] **Workspace Ribbon Foundation:** Added `WorkspaceRibbon.tsx` with Office-style tabs, grouped tactile command buttons, and a Quick Access strip for blueprint creation, import, export, design steps, preview, and view placeholders.
+* [x] **Workspace Context Bar:** Added `WorkspaceContextBar.tsx` as a Photoshop-style contextual options strip under the ribbon, changing actions and hints by screen/builder step.
 
 ---
 
@@ -436,6 +437,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Dashboard Blueprint Picker extraction.
 * [x] Frontend build was verified with `npm run build` after Dashboard Theme Grid extraction.
 * [x] Frontend build was verified with `npm run build` after Workspace Ribbon foundation.
+* [x] Frontend build was verified with `npm run build` after Workspace Context Bar.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
@@ -471,7 +473,7 @@ Implementation checklist:
   * [ ] Export: Google AI Studio, Codex, Antigravity, full handoff, starter templates, token-saving prompt.
   * [ ] View: show/hide panels, compact ribbon, reset workspace layout.
 * [x] Add an Office-style Quick Access Toolbar for common actions: save/current theme, undo/redo placeholder, import, export, preview mode.
-* [ ] Add contextual options bar under the ribbon that changes by active builder step, similar to Photoshop's selected-tool options.
+* [x] Add contextual options bar under the ribbon that changes by active builder step, similar to Photoshop's selected-tool options.
 * [x] Convert large buttons into more tactile command buttons with icon, label, hover/pressed state, tooltip, and grouped ribbon sections.
 * [ ] Make preview tabs feel like document tabs: Dashboard, Table, Form, Modal, Report, States, Patterns, with clearer active/hover/close-style affordances where appropriate.
 * [ ] Add docked/collapsible side panels:
