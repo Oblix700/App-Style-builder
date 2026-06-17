@@ -10,6 +10,7 @@ import { DashboardBlueprintPicker } from './components/DashboardBlueprintPicker'
 import { DashboardThemeGrid } from './components/DashboardThemeGrid';
 import { NextBestActionBanner } from './components/NextBestActionBanner';
 import { getBuilderNextAction } from './components/builderNextActions';
+import { WorkspaceRibbon } from './components/WorkspaceRibbon';
 
 import * as Bindings from '../wailsjs/go/main/App';
 import * as Icons from 'lucide-react';
@@ -1185,6 +1186,18 @@ function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col overflow-hidden">
+        <WorkspaceRibbon
+          activeScreen={activeScreen}
+          hasActiveTheme={Boolean(activeThemeDetail)}
+          activeThemeName={activeThemeDetail?.theme.name}
+          previewMode={previewMode}
+          onNavigate={setActiveScreen}
+          onCreateBlueprint={() => handleCreateTheme()}
+          onImportTokens={handleImportJsonFile}
+          onSetBuilderStep={setActiveStep}
+          onTogglePreviewMode={() => setPreviewMode(previewMode === 'dark' ? 'light' : 'dark')}
+          onNotify={(message) => showNotification(message, 'info')}
+        />
         
         {/* Notification Toast */}
         {notification && (
