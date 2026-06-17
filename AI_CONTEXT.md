@@ -23,6 +23,9 @@ The app should borrow the strongest ideas from:
 * **Figma:** direct manipulation, variable/token language, inspectable surfaces, and predictable visual feedback.
 * **Flex-style no-code builders:** guided choices, plain-English controls, and fast app-shape presets for users who do not think in CSS.
 * **Mobbin:** curated screen/component patterns that teach users what good apps look like by example.
+* **LightBurn:** professional workspace feel with a central editable canvas, docked side panels, visible toolbars, hide/show panels, and layouts that can adapt to the user's workflow.
+* **Photoshop:** application bar, document tabs, left tools, right panels, selected-tool options bar, contextual task bar, and panel groups that expand/collapse without losing the canvas.
+* **Microsoft Word / Office ribbon:** top tabs, grouped commands, Quick Access actions, contextual tabs, visual galleries, larger primary buttons, and enhanced tooltips so non-coders discover features without hunting.
 * **Developer handoff tools:** exports that make implementation unambiguous for AI coding agents and human developers.
 
 ### North Star UX
@@ -31,6 +34,8 @@ The best version of App Style Studio should feel like: "Pick the kind of app you
 The builder experience should feel WYSIWYG: as the user makes choices on the left, the right-side preview should update immediately so they can understand cause and effect without reading documentation. Every meaningful choice should answer, "What changed in my app?" visually and quickly.
 
 First-time users should not be left to choose from a wall of powerful features. The app should guide them with a clear "What do you want to do next?" path: design a new app style, export to Google AI Studio, build in Codex/Antigravity, create starter templates, or improve an existing app.
+
+The overall shell should feel more like a familiar professional desktop app than a web dashboard. Use a Microsoft-style ribbon for top-level commands, Photoshop-style contextual tool options for the currently selected editing mode, LightBurn-style docked panels around a central canvas, and tabbed document/preview surfaces that can expand, collapse, or switch without disorienting the user.
 
 ### Core Product Thesis
 The strongest product loop is:
@@ -446,6 +451,34 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Add subtle "Preview updated" feedback or highlighted changed areas when a user adjusts plain-English style controls.
 * [x] Add an export recommendation panel that tells non-coders exactly which export to use for Google AI Studio, Codex/Antigravity, templates, or direct developer handoff.
 * [x] Add a non-coder usability checklist before release: first action clear, no unexplained export jargon, preview reflects choices, export choice obvious, token-saving workflow understandable.
+
+### Phase 9 - Pro Workspace Shell and Familiar Command UX
+Goal: make the app feel closer to LightBurn, Photoshop, and Microsoft Word: familiar, discoverable, tactile, and professional, while preserving offline-first Wails behavior and current features.
+
+Research basis:
+* LightBurn: customizable toolbars/windows, docked and tabbed panels, hide/show side panels, and central workspace.
+* Photoshop: application bar, tools panel, document window, options bar, panels, workspace switcher, and contextual task bar.
+* Microsoft Office: ribbon tabs with related command groups, Quick Access Toolbar, contextual tabs, visual galleries, and tooltips.
+
+Implementation checklist:
+* [ ] Replace the current left activity rail/top nav feel with a top command ribbon:
+  * [ ] File/Project: new blueprint, import tokens, duplicate, delete, settings.
+  * [ ] Design: identity, colors, typography, spacing, radius/shadows, icons, motion.
+  * [ ] Preview: desktop/tablet/mobile, dark/light, screen tabs, present mode.
+  * [ ] Export: Google AI Studio, Codex, Antigravity, full handoff, starter templates, token-saving prompt.
+  * [ ] View: show/hide panels, compact ribbon, reset workspace layout.
+* [ ] Add an Office-style Quick Access Toolbar for common actions: save/current theme, undo/redo placeholder, import, export, preview mode.
+* [ ] Add contextual options bar under the ribbon that changes by active builder step, similar to Photoshop's selected-tool options.
+* [ ] Convert large buttons into more tactile command buttons with icon, label, hover/pressed state, tooltip, and grouped ribbon sections.
+* [ ] Make preview tabs feel like document tabs: Dashboard, Table, Form, Modal, Report, States, Patterns, with clearer active/hover/close-style affordances where appropriate.
+* [ ] Add docked/collapsible side panels:
+  * [ ] Left: tools/steps or navigation.
+  * [ ] Right: properties/design health/export guidance.
+  * [ ] Bottom: status/logs/export history.
+* [ ] Add a status bar with selected theme, autosave state, preview mode, contrast health, and export readiness.
+* [ ] Add workspace density modes: Beginner, Pro, Compact.
+* [ ] Preserve non-coder guidance: first-time guide and next-best-action should live inside the new shell, not disappear.
+* [ ] Run browser visual QA after shell changes on desktop and narrower widths.
 
 ---
 
