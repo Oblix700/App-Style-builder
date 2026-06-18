@@ -396,9 +396,23 @@ export function PreviewGallery({ detail, mode, onInspectSection }: PreviewGaller
       `}} />
 
       {/* Workspace Document Tabs */}
-      <div className="bg-[#121625] border-b border-[#202538] select-none shrink-0 flex items-center justify-between px-3 h-11">
-        {/* Document Tab Row */}
-        <div className="flex items-center h-full overflow-x-auto no-scrollbar">
+      <div className="bg-[#0b0e17] border-b border-[#202538] select-none shrink-0">
+        <div className="h-7 px-3 flex items-center justify-between border-b border-[#202538] bg-[#090c14]">
+          <div className="flex items-center gap-2 min-w-0">
+            <Icons.Files size={13} className="text-[var(--primary)] shrink-0" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Preview Documents</span>
+            <span className="hidden lg:inline text-[10px] text-gray-600 truncate">
+              {blueprintScreenSet} / {starterTemplateRoute}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] text-gray-500 font-mono">
+            <span className="hidden md:inline">active: {tabDefinitions.find((tab) => tab.key === activeTab)?.name}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          </div>
+        </div>
+
+        <div className="h-12 flex items-stretch justify-between px-3">
+          <div className="flex items-end h-full overflow-x-auto no-scrollbar pt-1">
           {orderedTabs.map((tab) => {
             const isSelected = activeTab === tab.key;
             const isRecommended = recommendedTabSet.has(tab.key);
@@ -408,31 +422,34 @@ export function PreviewGallery({ detail, mode, onInspectSection }: PreviewGaller
                 key={tab.key}
                 disabled={inspectMode}
                 onClick={() => setActiveTab(tab.key)}
-                className={`h-full px-4 text-xs font-medium transition-all flex items-center gap-2 border-r border-[#202538] relative ${
+                className={`h-10 min-w-[142px] px-3 text-xs font-medium transition-all flex items-center gap-2 border relative rounded-t-lg -mb-px ${
                   inspectMode ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
                 } ${
                   isSelected
-                    ? 'bg-[#111422] text-[var(--primary)] font-semibold border-b-2 border-b-[var(--primary)]'
-                    : 'text-gray-400 hover:text-gray-200 hover:bg-[#1a1e30]'
+                    ? 'bg-[#111422] text-white font-semibold border-[#202538] border-b-[#111422] shadow-[0_-1px_0_0_var(--primary)_inset]'
+                    : 'bg-[#101421] text-gray-400 border-[#202538] hover:text-gray-200 hover:bg-[#171c2f]'
                 }`}
               >
+                <span className={`w-2 h-2 rounded-full shrink-0 ${isSelected ? 'bg-[var(--primary)]' : 'bg-[#3a4264]'}`} />
                 <TabIcon size={12} className={isSelected ? 'text-[var(--primary)]' : 'text-gray-500'} />
-                <span>{tab.name}</span>
+                <span className="truncate">{tab.name}</span>
                 {isRecommended && (
-                  <span className="text-[8px] px-1 py-0.5 rounded bg-[var(--primary)]/15 text-[var(--primary)] font-black uppercase">
-                    Pick
+                  <span className="text-[8px] px-1.5 py-0.5 rounded bg-[var(--primary)]/15 text-[var(--primary)] font-black uppercase shrink-0">
+                    Pin
                   </span>
                 )}
                 {isSelected && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] ml-1" />
+                  <span className="ml-auto text-gray-500 hover:text-gray-300">
+                    <Icons.X size={11} />
+                  </span>
                 )}
               </button>
             );
           })}
-        </div>
+          </div>
 
-        {/* Workspace Labels/Actions */}
-        <div className="flex items-center gap-3 text-[10px] font-mono shrink-0 pl-2">
+          {/* Workspace Labels/Actions */}
+          <div className="flex items-center gap-3 text-[10px] font-mono shrink-0 pl-2">
           <div className="hidden xl:flex items-center gap-1 bg-[#0c0f1b] border border-[#242b47] rounded-lg p-0.5 font-sans">
             {viewportOptions.map((item) => {
               const Icon = item.icon;
@@ -471,7 +488,7 @@ export function PreviewGallery({ detail, mode, onInspectSection }: PreviewGaller
           </button>
 
           <span className="text-gray-500 uppercase tracking-widest">Canvas Studio</span>
-          <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          </div>
         </div>
       </div>
 
