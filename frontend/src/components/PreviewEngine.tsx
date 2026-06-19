@@ -80,6 +80,11 @@ export function generateCssVariablesString(detail: ThemeDetail, mode: 'light' | 
     `  --font-size-h4: ${detail.typography_tokens.heading_sizes.h4 || '1.25rem'};`,
     `  --font-size-h5: ${detail.typography_tokens.heading_sizes.h5 || '1.125rem'};`,
     `  --font-size-h6: ${detail.typography_tokens.heading_sizes.h6 || '1rem'};`,
+    `  --line-height-normal: ${detail.typography_tokens.line_heights?.normal || '1.5'};`,
+    `  --line-height-tight: ${detail.typography_tokens.line_heights?.tight || '1.25'};`,
+    `  --line-height-loose: ${detail.typography_tokens.line_heights?.loose || '1.75'};`,
+    `  --letter-spacing-normal: ${detail.typography_tokens.letter_spacings?.normal || '0'};`,
+    `  --letter-spacing-wide: ${detail.typography_tokens.letter_spacings?.wide || '0.025em'};`,
 
     // Spacing
     `  --space-xs: ${detail.spacing_tokens.xs};`,
@@ -164,6 +169,33 @@ export function PreviewEngine({ detail, mode }: PreviewEngineProps) {
     styleEl.innerHTML = `
       .preview-scope {
         ${cssVars}
+        font-family: var(--font-body);
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-normal);
+        letter-spacing: var(--letter-spacing-normal);
+      }
+      .preview-scope h1,
+      .preview-scope h2,
+      .preview-scope h3,
+      .preview-scope h4,
+      .preview-scope h5,
+      .preview-scope h6 {
+        font-family: var(--font-heading);
+        line-height: var(--line-height-tight);
+        letter-spacing: var(--letter-spacing-normal);
+      }
+      .preview-scope p,
+      .preview-scope li,
+      .preview-scope input,
+      .preview-scope textarea,
+      .preview-scope select {
+        line-height: var(--line-height-normal);
+        letter-spacing: var(--letter-spacing-normal);
+      }
+      .preview-scope button,
+      .preview-scope label,
+      .preview-scope [class*="uppercase"] {
+        letter-spacing: var(--letter-spacing-wide);
       }
       ${glassStyle}
     `;

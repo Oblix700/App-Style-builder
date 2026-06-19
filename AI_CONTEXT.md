@@ -293,6 +293,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Workspace Context Bar:** Added `WorkspaceContextBar.tsx` as a Photoshop-style contextual options strip under the ribbon, changing actions and hints by screen/builder step.
 * [x] **Document-Style Preview Tabs:** Preview Gallery now presents screens as document tabs with active-file styling, pinned recommendations, a document header, and clearer canvas affordances.
 * [x] **Workspace Status Bar:** Added `WorkspaceStatusBar.tsx` with local DB/autosave, active theme, preview mode, design health, export readiness, theme count, and export log count.
+* [x] **Text Readability Controls:** Fonts step now exposes line-height and letter-spacing controls, plus a one-click readability fix for bunched-up text; PreviewEngine emits the matching CSS variables.
 
 ---
 
@@ -442,6 +443,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Workspace Context Bar.
 * [x] Frontend build was verified with `npm run build` after Document-Style Preview Tabs.
 * [x] Frontend build was verified with `npm run build` after Workspace Status Bar.
+* [x] Frontend build was verified with `npm run build` after Text Readability Controls.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.

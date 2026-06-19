@@ -2121,6 +2121,146 @@ function App() {
                         className="w-full h-1 bg-[#121625] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]"
                       />
                     </div>
+
+                    {/* Text readability controls */}
+                    <div className="p-4 bg-[#141829] border border-[#202538] rounded-xl space-y-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--primary)]">
+                            <Icons.AlignLeft size={13} />
+                            Text Readability
+                          </div>
+                          <h4 className="text-sm font-bold text-white mt-1">Fix bunched-up letters and cramped text</h4>
+                          <p className="text-[11px] text-gray-400 mt-1">
+                            These controls adjust line height and letter spacing in the live preview.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleAutosave({
+                            ...activeThemeDetail,
+                            typography_tokens: {
+                              ...activeThemeDetail.typography_tokens,
+                              line_heights: { normal: '1.6', tight: '1.3', loose: '1.8' },
+                              letter_spacings: { normal: '0.01em', wide: '0.05em' },
+                              preset_name: 'Custom',
+                            }
+                          })}
+                          className="px-3 py-1.5 rounded-lg bg-[var(--primary)] text-white text-[10px] font-bold hover:bg-[var(--primary-hover)] transition-all shrink-0"
+                        >
+                          Improve readability
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <div className="flex justify-between text-xs font-semibold mb-1">
+                            <span className="text-gray-400">Paragraph Breathing Room</span>
+                            <span className="text-[var(--primary)] font-mono">{activeThemeDetail.typography_tokens.line_heights?.normal || '1.5'}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="1.2"
+                            max="1.9"
+                            step="0.05"
+                            value={parseFloat(activeThemeDetail.typography_tokens.line_heights?.normal || '1.5')}
+                            onChange={(e) => handleAutosave({
+                              ...activeThemeDetail,
+                              typography_tokens: {
+                                ...activeThemeDetail.typography_tokens,
+                                line_heights: { ...activeThemeDetail.typography_tokens.line_heights, normal: e.target.value },
+                                preset_name: 'Custom',
+                              }
+                            })}
+                            className="w-full h-1 bg-[#121625] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between text-xs font-semibold mb-1">
+                            <span className="text-gray-400">Heading Tightness</span>
+                            <span className="text-[var(--primary)] font-mono">{activeThemeDetail.typography_tokens.line_heights?.tight || '1.25'}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="1.05"
+                            max="1.5"
+                            step="0.05"
+                            value={parseFloat(activeThemeDetail.typography_tokens.line_heights?.tight || '1.25')}
+                            onChange={(e) => handleAutosave({
+                              ...activeThemeDetail,
+                              typography_tokens: {
+                                ...activeThemeDetail.typography_tokens,
+                                line_heights: { ...activeThemeDetail.typography_tokens.line_heights, tight: e.target.value },
+                                preset_name: 'Custom',
+                              }
+                            })}
+                            className="w-full h-1 bg-[#121625] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between text-xs font-semibold mb-1">
+                            <span className="text-gray-400">Letter Spacing</span>
+                            <span className="text-[var(--primary)] font-mono">{activeThemeDetail.typography_tokens.letter_spacings?.normal || '0'}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="-0.03"
+                            max="0.06"
+                            step="0.005"
+                            value={parseFloat((activeThemeDetail.typography_tokens.letter_spacings?.normal || '0').replace('em', ''))}
+                            onChange={(e) => handleAutosave({
+                              ...activeThemeDetail,
+                              typography_tokens: {
+                                ...activeThemeDetail.typography_tokens,
+                                letter_spacings: { ...activeThemeDetail.typography_tokens.letter_spacings, normal: `${e.target.value}em` },
+                                preset_name: 'Custom',
+                              }
+                            })}
+                            className="w-full h-1 bg-[#121625] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]"
+                          />
+                        </div>
+
+                        <div>
+                          <div className="flex justify-between text-xs font-semibold mb-1">
+                            <span className="text-gray-400">Labels & Buttons</span>
+                            <span className="text-[var(--primary)] font-mono">{activeThemeDetail.typography_tokens.letter_spacings?.wide || '0.025em'}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min="0"
+                            max="0.12"
+                            step="0.005"
+                            value={parseFloat((activeThemeDetail.typography_tokens.letter_spacings?.wide || '0.025em').replace('em', ''))}
+                            onChange={(e) => handleAutosave({
+                              ...activeThemeDetail,
+                              typography_tokens: {
+                                ...activeThemeDetail.typography_tokens,
+                                letter_spacings: { ...activeThemeDetail.typography_tokens.letter_spacings, wide: `${e.target.value}em` },
+                                preset_name: 'Custom',
+                              }
+                            })}
+                            className="w-full h-1 bg-[#121625] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className="rounded-lg bg-[#101421] border border-[#252c47] p-3 text-gray-300"
+                        style={{
+                          lineHeight: activeThemeDetail.typography_tokens.line_heights?.normal || '1.5',
+                          letterSpacing: activeThemeDetail.typography_tokens.letter_spacings?.normal || '0',
+                        }}
+                      >
+                        <div className="text-white font-bold mb-1" style={{ lineHeight: activeThemeDetail.typography_tokens.line_heights?.tight || '1.25' }}>
+                          Readability sample
+                        </div>
+                        <p className="text-[11px] text-gray-400">
+                          If letters feel bunched up, increase letter spacing slightly and give paragraphs more breathing room.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
 
