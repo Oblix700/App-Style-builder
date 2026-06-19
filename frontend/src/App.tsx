@@ -12,6 +12,7 @@ import { NextBestActionBanner } from './components/NextBestActionBanner';
 import { getBuilderNextAction } from './components/builderNextActions';
 import { WorkspaceRibbon } from './components/WorkspaceRibbon';
 import { WorkspaceContextBar } from './components/WorkspaceContextBar';
+import { WorkspaceStatusBar } from './components/WorkspaceStatusBar';
 
 import * as Bindings from '../wailsjs/go/main/App';
 import * as Icons from 'lucide-react';
@@ -3330,6 +3331,17 @@ function App() {
             </div>
           </div>
         )}
+
+        <WorkspaceStatusBar
+          activeScreen={activeScreen}
+          activeThemeName={activeThemeDetail?.theme.name}
+          previewMode={previewMode}
+          designHealthScore={designHealth.score}
+          designHealthStatus={designHealth.status}
+          hasActiveTheme={Boolean(activeThemeDetail)}
+          themeCount={themes.length}
+          exportLogCount={exportLogs.length}
+        />
 
       </main>
     </div>

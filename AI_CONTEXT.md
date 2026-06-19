@@ -292,6 +292,7 @@ Completed items should stay marked here so future sessions do not rebuild solved
 * [x] **Workspace Ribbon Foundation:** Added `WorkspaceRibbon.tsx` with Office-style tabs, grouped tactile command buttons, and a Quick Access strip for blueprint creation, import, export, design steps, preview, and view placeholders.
 * [x] **Workspace Context Bar:** Added `WorkspaceContextBar.tsx` as a Photoshop-style contextual options strip under the ribbon, changing actions and hints by screen/builder step.
 * [x] **Document-Style Preview Tabs:** Preview Gallery now presents screens as document tabs with active-file styling, pinned recommendations, a document header, and clearer canvas affordances.
+* [x] **Workspace Status Bar:** Added `WorkspaceStatusBar.tsx` with local DB/autosave, active theme, preview mode, design health, export readiness, theme count, and export log count.
 
 ---
 
@@ -440,6 +441,7 @@ We are now building toward: **the best non-coder app-style system for creating A
 * [x] Frontend build was verified with `npm run build` after Workspace Ribbon foundation.
 * [x] Frontend build was verified with `npm run build` after Workspace Context Bar.
 * [x] Frontend build was verified with `npm run build` after Document-Style Preview Tabs.
+* [x] Frontend build was verified with `npm run build` after Workspace Status Bar.
 * [ ] Run `npm run build` before every handoff.
 * [ ] Run `wails build` when backend, export, filesystem, or SQLite behavior changes.
 * [ ] Use browser visual QA for major UI layout changes.
@@ -482,7 +484,7 @@ Implementation checklist:
   * [ ] Left: tools/steps or navigation.
   * [ ] Right: properties/design health/export guidance.
   * [ ] Bottom: status/logs/export history.
-* [ ] Add a status bar with selected theme, autosave state, preview mode, contrast health, and export readiness.
+* [x] Add a status bar with selected theme, autosave state, preview mode, contrast health, and export readiness.
 * [ ] Add workspace density modes: Beginner, Pro, Compact.
 * [ ] Preserve non-coder guidance: first-time guide and next-best-action should live inside the new shell, not disappear.
 * [ ] Run browser visual QA after shell changes on desktop and narrower widths.
